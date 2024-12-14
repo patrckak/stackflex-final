@@ -1,5 +1,7 @@
 "use server";
 
+import { ComparePasswords } from "../../components/db/crypt";
+
 export async function newEstimate(data: any) {
   const { role, date, desc, clientId, items, descont } = data;
   try {
@@ -28,26 +30,6 @@ export async function newEstimate(data: any) {
         msg: "Orçamento criado com sucesso.",
       };
     }
-    // if (!user) {
-    //   return {
-    //     msg: "ERRO SF005: Erro ao gerar orçamento, contate o suporte. ", // não foi encontrado o id
-    //     status: 0,
-    //   };
-    // } else {
-    //   let r = await prisma.estimates.create({
-    //     data: {
-    //       clientId: clientId,
-    //       desc: desc,
-    //       date: date,
-    //     },
-    //   });
-    //   if (r) {
-    //     return { msg: "Novo orçamento gerado com sucesso." };
-    //   } else
-    //     return {
-    //       msg: "ERRO SF101: Erro interno ao gerar orçamento, contate o suporte.",
-    //     };
-    // }
   } catch (error) {
     console.warn(error);
     return {
@@ -57,11 +39,25 @@ export async function newEstimate(data: any) {
   }
 }
 
-// export const listEstimates = (id: any) => {
-//   if (id) {
-//     let r;
-//     return r;
-//   } else {
-//     return { msg: "ERRO SF000: Não autorizado.", status: 0 };
-//   }
-// };
+export const listEstimate = async (role: string) => {
+  try {
+    let estimates = await prisma.estimates.findMany({ where: { id: role } });
+    return estimates;
+  } catch (error) {
+    return null;
+  }
+};
+
+export const updateEstimate = async (
+  role: string,
+  estimateId: string,
+  password: string
+) => {
+  try {
+    let user = await prisma.user.findUnique({ where: { id: role } });
+    // if(user.role =< 2) // tem permissão para editar ou apagar arquivos
+    let matchPassword = await ComparePasswords(password, user.password);
+  } catch (error) {
+    return null;
+  }
+};

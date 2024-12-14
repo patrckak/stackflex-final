@@ -1,9 +1,9 @@
-import { AppSidebar } from "@/components/app-sidebar";
-import ThemedSection from "@/components/ui/themedSection";
-import Layout from "./layout";
-import EstimateForm from "@/components/ui/estimate-form";
+import { AppSidebar } from "../../../../components/app-sidebar";
+import ThemedSection from "../../../../components/ui/themedSection";
+import EstimateForm from "../../../../components/ui/estimate-form";
 import EstimateTable from "./(table)/page";
 import { auth } from "../../../../../auth";
+import Layout from "./layout";
 export default async function Page() {
   const session = await auth();
 

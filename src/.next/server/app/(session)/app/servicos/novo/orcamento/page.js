@@ -1,0 +1,15 @@
+const CHUNK_PUBLIC_PATH = "server/app/(session)/app/servicos/novo/orcamento/page.js";
+const runtime = require("../../../../../../chunks/ssr/[turbopack]_runtime.js");
+runtime.loadChunk("server/chunks/ssr/08b5e_next_dist_97f32f._.js");
+runtime.loadChunk("server/chunks/ssr/[root of the server]__c28b7a._.js");
+runtime.loadChunk("server/chunks/ssr/app_2c7daa._.js");
+runtime.loadChunk("server/chunks/ssr/[root of the server]__558d19._.js");
+runtime.loadChunk("server/chunks/ssr/[root of the server]__9a168d._.css");
+runtime.loadChunk("server/chunks/ssr/app_not-found_tsx_fff786._.js");
+runtime.loadChunk("server/chunks/ssr/08b5e_490daf._.js");
+runtime.loadChunk("server/chunks/ssr/08b5e_next_dist_client_components_unauthorized-error_d758e6.js");
+runtime.loadChunk("server/chunks/ssr/app_(session)_app_servicos_layout_tsx_b8c1b4._.js");
+runtime.loadChunk("server/chunks/ssr/[project]__036608._.js");
+runtime.loadChunk("server/chunks/ssr/[project]__7a5010._.js");
+runtime.getOrInstantiateRuntimeModule("[project]/src/.next-internal/server/app/(session)/app/servicos/novo/orcamento/page/actions.js [app-rsc] (ecmascript)", CHUNK_PUBLIC_PATH);
+module.exports = runtime.getOrInstantiateRuntimeModule("[project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/(session)/app/servicos/novo/orcamento/page { METADATA_0 => \"[project]/src/app/icon.png.mjs { IMAGE => \\\"[project]/src/app/icon.png [app-rsc] (static)\\\" } [app-rsc] (structured image object, ecmascript, Next.js server component)\", MODULE_1 => \"[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js server component)\", MODULE_2 => \"[project]/src/app/not-found.tsx [app-rsc] (ecmascript, Next.js server component)\", MODULE_3 => \"[project]/node_modules/next/dist/client/components/forbidden-error.js [app-rsc] (ecmascript, Next.js server component)\", MODULE_4 => \"[project]/node_modules/next/dist/client/components/unauthorized-error.js [app-rsc] (ecmascript, Next.js server component)\", MODULE_5 => \"[project]/src/app/(session)/app/servicos/layout.tsx [app-rsc] (ecmascript, Next.js server component)\", MODULE_6 => \"[project]/src/app/(session)/app/servicos/novo/orcamento/layout.tsx [app-rsc] (ecmascript, Next.js server component)\", MODULE_7 => \"[project]/src/app/(session)/app/servicos/novo/orcamento/page.tsx [app-rsc] (ecmascript, Next.js server component)\" } [app-rsc] (ecmascript)", CHUNK_PUBLIC_PATH).exports;

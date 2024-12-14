@@ -1,25 +1,19 @@
-import { Payment, columns } from "./columns";
+import Columns, { Estimate } from "./columns";
 import { DataTable } from "./data-table";
-
-async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "Aguardando Aprovação",
-      email: "m@example.com",
-    },
-    // ...
-  ];
-}
+import { listEstimate } from "../../../../actions/estimate";
+import { auth } from "../../../../../../auth";
 
 export default async function EstimateTable() {
-  const data = await getData();
+  const session = await auth();
 
-  return (
-    <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={data} />
-    </div>
-  );
+  if (session) {
+    const data = await listEstimate(session.user.role);
+    console.log(data);
+
+    return (
+      <div className="container mx-auto py-10">
+        <DataTable columns={Columns} data={data} />
+      </div>
+    );
+  }
 }

@@ -44,19 +44,20 @@ export default function EstimateForm() {
     return (
       <Form {...form}>
         <form onSubmit={(e) => submit(e)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="role"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Descrição do orçamento</FormLabel>
-                <FormControl>
-                  <Input disabled placeholder="shadcn" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <span className="hidden">
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input disabled {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </span>
 
           <FormField
             control={form.control}
@@ -65,7 +66,7 @@ export default function EstimateForm() {
               <FormItem>
                 <FormLabel>Data de execução</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input type="date" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

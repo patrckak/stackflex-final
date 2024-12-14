@@ -12,25 +12,25 @@ datasource db {
 }
 
 model User {
-  public_id     String         @id @unique // CPF
-  id            String         @unique @default(cuid())
-  firstname     String
-  lastname      String
-  email         String
-  verification  String?
-  isVerificated Boolean        @default(false) // se o email é verificado ou não
-  password      String
-  LastModify    DateTime       @updatedAt
-  cep           String
-  cidade        String
-  endereco      String
-  avatar        String         @default("https://utfs.io/f/SHkctA3zZK7UNJJh7RPsirWFqgMZSXO8ta0lynz9TEYoj2Hv")
-  cnpj          String?        @default("0")
-  razao         String?
-  Account       Account[]
-  Funcionarios  Funcionarios[]
-  Client        Client[]
-  Estimates     Estimates[]
+  public_id    String   @id @unique // CPF
+  id           String   @unique @default(cuid())
+  firstname    String
+  lastname     String
+  email        String
+  verification String?
+  password     String
+  cep          String
+  cidade       String
+  endereco     String
+  avatar       String   @default("https://utfs.io/f/SHkctA3zZK7UNJJh7RPsirWFqgMZSXO8ta0lynz9TEYoj2Hv")
+  cnpj         String?  @default("0")
+  razao        String?
+  createdAt    DateTime @default(now())
+
+  Account      Account[]
+  Funcionarios Funcionarios[]
+  Client       Client[]
+  Estimates    Estimates[]
 }
 
 model Account {
@@ -41,6 +41,7 @@ model Account {
   useFinance      Boolean @default(false) // Gestão Financeira
   useWhatsapp     Boolean @default(false) // Integração com Whatsapp
   useChild        Boolean @default(false) // Criação de contas "filhas"
+  isVerificated   Boolean @default(false) // se o email é verificado ou não
   earnings        Int     @default(0)
   monthlyEarnings Int     @default(0)
   plan            Int     @default(0) // 0 free 1 basic 2 custom
@@ -49,6 +50,8 @@ model Account {
 
 model Funcionarios {
   id    String  @id
+  nome  String
+  role  Int     @default(1) // 1 ~ 5 | apenas visualização ~ todas permissões
   email String? @unique
   cpf   String? @unique
 
@@ -57,16 +60,16 @@ model Funcionarios {
 
 model Estimates {
   // Orçamentos
-  estimateId String   @id @default(cuid())
-  id         String
-  clientId   String
-  desc       String?
-  date       String?
-  status     String   @default("Aguardando Aprovação")
-  createdAt  DateTime @default(now())
-  items      String?
-  value      Int      @default(0)
-  descont    Int?     @default(0)
+  estimateId  String   @id @default(cuid())
+  id          String
+  clientId    String
+  description String?
+  date        String?
+  status      String   @default("Aguardando Aprovação")
+  createdAt   DateTime @default(now())
+  items       String?
+  value       Int      @default(0)
+  descont     Int?     @default(0)
 
   r4 User @relation(fields: [id], references: [id])
 
@@ -74,12 +77,14 @@ model Estimates {
 }
 
 model Client {
-  id      String  @id @unique @default(cuid())
-  userId  String  @unique
-  address String?
-  contact String?
+  clientId String  @id @unique @default(cuid())
+  id       String
+  name     String
+  hasDebt  Boolean @default(false)
+  address  String?
+  contact  String?
 
-  r3 User @relation(fields: [userId], references: [id])
+  r3 User @relation(fields: [id], references: [id])
 
-  @@index([userId])
+  @@index([id])
 }

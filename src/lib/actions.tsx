@@ -1,6 +1,6 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "./prisma";
 import { auth } from "../../auth";
-import { ComparePasswords } from "@/components/db/crypt";
+import { ComparePasswords } from "../components/db/crypt";
 
 export async function getSession() {
   const session = await auth();
@@ -47,7 +47,7 @@ export async function createEstimate(data: any) {
         create: {
           clientId: clientId,
           date: date,
-          desc: desc,
+          description: desc,
           items: "{ 1: {nome: teste, valor: 35, un: unidade}}",
         },
       },

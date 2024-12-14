@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import ThemedSection from "@/components/ui/themedSection";
+import { Button } from "../components/ui/button";
+import ThemedSection from "../components/ui/themedSection";
 import { House } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
