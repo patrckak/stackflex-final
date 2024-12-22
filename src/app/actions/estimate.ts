@@ -11,7 +11,7 @@ export async function newEstimate(data: any) {
         Estimates: {
           create: {
             clientId: clientId,
-            desc: desc,
+            description: desc,
             date: date,
             items: items,
             descont: descont,
@@ -31,7 +31,6 @@ export async function newEstimate(data: any) {
       };
     }
   } catch (error) {
-    console.warn(error);
     return {
       msg: "ERRO SF102: Erro interno ao gerar orçamento, contate o suporte.",
       status: 0,
@@ -57,6 +56,7 @@ export const updateEstimate = async (
     let user = await prisma.user.findUnique({ where: { id: role } });
     // if(user.role =< 2) // tem permissão para editar ou apagar arquivos
     let matchPassword = await ComparePasswords(password, user.password);
+    // TODO: finalizar atualização do
   } catch (error) {
     return null;
   }

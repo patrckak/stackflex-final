@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,10 +20,12 @@ export default function RootLayout({
   return (
     <html lang="pt-br" suppressHydrationWarning suppressContentEditableWarning>
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Toaster />
-          {children}
-        </ThemeProvider>
+        <Suspense fallback={<Loading />}>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <Toaster />
+            {children}
+          </ThemeProvider>
+        </Suspense>
       </body>
     </html>
   );

@@ -81,6 +81,7 @@ model Client {
   id       String
   name     String
   hasDebt  Boolean @default(false)
+  cadastro String?
   address  String?
   contact  String?
 

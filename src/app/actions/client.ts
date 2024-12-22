@@ -1,3 +1,5 @@
+"use server";
+
 export const newClient = async (formData: any) => {
   const { nome, endereco, contato, id, role } = formData;
   if (id) {
@@ -15,4 +17,17 @@ export const newClient = async (formData: any) => {
     });
     if (client) return { msg: "Cliente criado com sucesso." };
   } else return { msg: "ERRO SF511: Erro ao registrar o client." };
+};
+
+export const listClients = async (id: string): Promise<Array<any>> => {
+  if (id) {
+    let clients = await prisma.client.findMany({
+      where: { id: id },
+      select: { clientId: true, name: true },
+    });
+    if (clients) {
+      console.log(clients);
+      return clients;
+    } else return [];
+  }
 };

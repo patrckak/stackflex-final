@@ -9,10 +9,12 @@ import EstimateForm from "../../../../../../components/ui/estimate-form";
 export default function Page() {
   const { data: session } = useSession();
 
-  return (
-    <Layout>
-      <AppSidebar session={session} />
-      <ThemedSection>cadastro de cliente</ThemedSection>
-    </Layout>
-  );
+  if (session) {
+    return (
+      <Layout>
+        <AppSidebar session={session} />
+        <ThemedSection>cadastro de cliente</ThemedSection>
+      </Layout>
+    );
+  }
 }
