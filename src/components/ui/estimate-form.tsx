@@ -2,8 +2,16 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { number, z } from "zod";
-
+import { z } from "zod";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Trash, Plus } from "lucide-react";
 import { Button } from "./button";
 import { Input } from "./input";
 import { estimateForm } from "../../../utils/schemas";
@@ -26,7 +34,6 @@ import {
   FormMessage,
 } from "./form";
 import { redirect } from "next/navigation";
-import { Plus } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 export default function EstimateForm() {
@@ -37,20 +44,9 @@ export default function EstimateForm() {
   const { toast } = useToast();
   const { data: session } = useSession();
 
+  //? Estados da seleção de dados do cliente
   const [d, setD] = useState<any>([]);
   const [hasD, setHasD] = useState<any>(false);
-
-  const [items, setItems] = useState<any>({});
-
-  const [list, setList] = useState<any>({
-    qtd: String,
-    desc: String,
-    val: String,
-  });
-
-  const addItemsToList = async () => {
-    console.log(items);
-  };
 
   const getClients = async () => {
     fetch(`/api/clients/list/${session.user.role}`).then(async (response) => {
@@ -64,6 +60,7 @@ export default function EstimateForm() {
     e.preventDefault();
     form.setValue("role", session.user.role);
     let r = newEstimate(form.getValues());
+    console.log(await r);
     if ((await r).status != 0) {
       toast({ description: (await r).msg });
     } else {
@@ -87,6 +84,7 @@ export default function EstimateForm() {
           form.setValue("cadastro", res.cadastro);
           form.setValue("clientAddress", res.address);
           form.setValue("clientNumber", res.contact);
+          form.setValue("clientId", res.clientId);
           toast({
             description: "Dados do cliente encontrados.",
           });
@@ -95,32 +93,98 @@ export default function EstimateForm() {
     );
   };
 
+  const [itemsStg, setItemsStg] = useState("");
+
+  const TableForm = () => {
+    //? Estados da tabela de serviços
+    const [items, setItems] = useState([]);
+    const [newItemName, setNewItemName] = useState("");
+    const [newItemVal, setNewItemVal] = useState("0");
+    useEffect(() => {
+      let stg = JSON.stringify(items);
+      form.setValue("items", stg);
+    });
+
+    const removeItem = async (id) => {
+      setItems(items.filter((item) => item.id !== id));
+    };
+
+    const addItem = async () => {
+      if (newItemName && newItemVal) {
+        const newItem = {
+          id: items.length + 1, // Pode ser um ID gerado dinamicamente
+          nome: newItemName,
+          valor: newItemVal,
+        };
+        setItems([...items, newItem]); // Atualizando a tabela com o novo item
+        setNewItemName(""); // Limpando os inputs
+        setNewItemVal("");
+        return true;
+      }
+    };
+
+    return (
+      <div className="p-4">
+        <h2 className="text-2xl font-bold mb-4">Items do orçamento</h2>
+        {/* Inputs para adicionar novo item */}
+        <div className="flex space-x-2 mb-4">
+          <Input
+            value={newItemName}
+            onChange={(e) => setNewItemName(e.target.value)}
+            placeholder="Nome do item"
+          />
+          <Input
+            value={newItemVal}
+            onChange={(e) => setNewItemVal(e.target.value)}
+            placeholder="Valor"
+          />
+          <Button
+            onClick={async () => {
+              let a = await addItem();
+              if (a) {
+                form.setValue("items", JSON.stringify(items));
+              }
+            }}
+          >
+            Adicionar Item
+          </Button>
+        </div>
+
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>ID</TableHead>
+              <TableHead>Nome</TableHead>
+              <TableHead>Valor</TableHead>
+              <TableHead>Ações</TableHead>
+            </TableRow>
+          </TableHeader>
+
+          <TableBody>
+            {items.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{item.id}</TableCell>
+                <TableCell>{item.nome}</TableCell>
+                <TableCell>{item.valor}</TableCell>
+                <TableCell>
+                  <Button
+                    variant="destructive"
+                    onClick={() => removeItem(item.id)}
+                  >
+                    <Trash />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    );
+  };
+
   if (session) {
     return (
-      <>
-        <span className="absolute left-64">
-          <form action={() => addItemsToList()}>
-            <Input
-              type="text"
-              placeholder="qtd"
-              onChange={(e) => setList({ ...list, qtd: e.target.value })}
-              name="qtd"
-            />
-            <Input
-              type="text"
-              placeholder="descriminação"
-              onChange={(e) => setList({ ...list, desc: e.target.value })}
-              name="desc"
-            />
-            <Input
-              type="text"
-              placeholder="valor"
-              onChange={(e) => setList({ ...list, val: e.target.value })}
-              name="value"
-            />
-            <Button type="submit">Adicionar</Button>
-          </form>
-        </span>
+      <div className="flex p-5 w-fit h-fit">
         <Form {...form}>
           <form onSubmit={(e) => submit(e)} className="space-y-8">
             <span className="hidden">
@@ -221,6 +285,19 @@ export default function EstimateForm() {
 
               <FormField
                 control={form.control}
+                name="clientId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
                 name="clientNumber"
                 render={({ field }) => (
                   <FormItem>
@@ -254,7 +331,7 @@ export default function EstimateForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input {...field} />
+                    <Input type="text" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -264,7 +341,8 @@ export default function EstimateForm() {
             <Button type="submit">Registrar</Button>
           </form>
         </Form>
-      </>
+        <TableForm />
+      </div>
     );
   }
 }

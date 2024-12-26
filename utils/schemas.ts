@@ -63,4 +63,5 @@ export const estimateForm = z.object({
   clientNumber: z.string({ required_error: "Em branco." }),
   items: z.string(),
   clientAddress: z.string({ required_error: "Em branco." }),
+  clientId: z.string()
 });
