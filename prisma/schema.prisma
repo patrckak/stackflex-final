@@ -34,18 +34,18 @@ model User {
 }
 
 model Account {
-  id              String  @id
-  theme           String  @default("sys") // sys = system pref | drk = dark theme | lgt = light theme
-  usePDV          Boolean @default(false) // Ponto de Venda
-  useStock        Boolean @default(false) // Gestão de estoque
-  useFinance      Boolean @default(false) // Gestão Financeira
-  useWhatsapp     Boolean @default(false) // Integração com Whatsapp
-  useChild        Boolean @default(false) // Criação de contas "filhas"
-  isVerificated   Boolean @default(false) // se o email é verificado ou não
-  earnings        Int     @default(0)
-  monthlyEarnings Int     @default(0)
-  plan            Int     @default(0) // 0 free 1 basic 2 custom
-  relation        User    @relation(fields: [id], references: [id])
+  id            String  @id
+  theme         String  @default("sys") // sys = system pref | drk = dark theme | lgt = light theme
+  usePDV        Boolean @default(false) // Ponto de Venda
+  useStock      Boolean @default(false) // Gestão de estoque
+  useFinance    Boolean @default(false) // Gestão Financeira
+  useWhatsapp   Boolean @default(false) // Integração com Whatsapp
+  useChild      Boolean @default(false) // Criação de contas "filhas"
+  isVerificated Boolean @default(false) // se o email é verificado ou não
+  costs         Float   @default(0)
+  earnings      Float   @default(0)
+  plan          Int     @default(0) // 0 free 1 basic 2 custom
+  relation      User    @relation(fields: [id], references: [id])
 }
 
 model Funcionarios {
@@ -60,16 +60,20 @@ model Funcionarios {
 
 model Estimates {
   // Orçamentos
-  estimateId  String   @id @default(cuid())
-  id          String
-  clientId    String
-  description String?
-  date        String?
-  status      String   @default("Aguardando Aprovação")
-  createdAt   DateTime @default(now())
-  items       String?
-  value       Int      @default(0)
-  descont     Int?     @default(0)
+  estimateId     String   @id @default(cuid())
+  id             String
+  clientId       String
+  clientAddress  String?
+  clientNumber   String?
+  clientCadastro String?
+  description    String?
+  date           String?
+  key            Int      @default(0) // chave de acesso do orçamento
+  status         String   @default("Aguardando Aprovação")
+  createdAt      DateTime @default(now())
+  items          String?
+  value          Float    @default(0)
+  descont        Int?     @default(0)
 
   r4 User @relation(fields: [id], references: [id])
 

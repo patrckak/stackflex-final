@@ -1,27 +1,45 @@
 "use client";
 
-import { redirect } from "next/navigation";
-import { useSession } from "next-auth/react";
-import Header from "@/components/ui/header-session";
-import Layout from "./layout";
-import ThemedSection from "../../../../components/ui/themedSection";
-import { Button } from "@/components/ui/button";
 import { AppSidebar } from "@/components/app-sidebar";
+import { useSession } from "next-auth/react";
+// import CardDashboard from "../../../../components/ui/card-dashboard";
+import ThemedSection from "../../../../components/ui/themedSection";
+import Layout from "./layout";
 
 export default function Dashboard() {
-  const now = new Date();
+  function saudarUsuario() {
+    const dataAtual = new Date();
+    const horas = dataAtual.getHours();
+    let s;
+    if (horas < 12) {
+      s = "Bom dia";
+    } else if (horas < 18) {
+      s = "Boa tarde";
+    } else {
+      s = "Boa noite";
+    }
+
+    return s;
+  }
 
   const { data: session } = useSession({
     required: true,
   });
+
   if (session) {
-    console.log(session);
-    console.log(now);
     return (
       <Layout>
         <AppSidebar session={session} />
-        <ThemedSection>Olá {session.user?.name}</ThemedSection>
-        <span className="absolute"></span>
+        <ThemedSection>
+          <h5 className="text-lg top-5 left-5 ">
+            {saudarUsuario()},&nbsp;
+            <span className="font-bold bg-gradient-to-r from-violet-600 to-indigo-600 dark:from-violet-400 dark:to-indigo-400 bg-clip-text text-transparent ">
+              {session.user.name}
+            </span>
+            .
+          </h5>
+          <h3>{/* <CardDashboard /> */}</h3>
+        </ThemedSection>
       </Layout>
     );
   } else {

@@ -3,7 +3,9 @@ import ThemedSection from "@/components/ui/themedSection";
 export default function Loading() {
   return (
     <ThemedSection>
-      <img src={"./icon.png"} className="w-32 h-32" alt="logo" />
+      <span className="min-h-screen content-center">
+        <img src="https://i.imgur.com/vQxxDbM.png" alt="logo" />
+      </span>
     </ThemedSection>
   );
 }

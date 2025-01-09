@@ -1,5 +1,13 @@
 "use client";
 
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -11,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Trash, Plus } from "lucide-react";
+import { Trash, Plus, Users, Table2, Check } from "lucide-react";
 import { Button } from "./button";
 import { Input } from "./input";
 import { estimateForm } from "../../../utils/schemas";
@@ -35,6 +43,8 @@ import {
 } from "./form";
 import { redirect } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { Textarea } from "./textarea";
+import PreviewEstimate from "./preview-estimate";
 
 export default function EstimateForm() {
   const form = useForm<z.infer<typeof estimateForm>>({
@@ -47,6 +57,44 @@ export default function EstimateForm() {
   //? Estados da seleção de dados do cliente
   const [d, setD] = useState<any>([]);
   const [hasD, setHasD] = useState<any>(false);
+
+  //? quais campos estão disponiveis
+  const [changeView, setChangeView] = useState(1);
+  //? 1 = campo de data + descrição + dados do cliente
+  //? 2 = items do orçamento
+  //? 3 = preview do orçamento + envio
+
+  const forward = () => {
+    switch (changeView) {
+      case 0:
+        setChangeView(1);
+        break;
+      case 1:
+        setChangeView(2);
+        break;
+      case 2:
+        setChangeView(3);
+        break;
+      default:
+        setChangeView(1);
+    }
+  };
+
+  const backward = () => {
+    switch (changeView) {
+      case 0:
+        setChangeView(1);
+        break;
+      case 2:
+        setChangeView(1);
+        break;
+      case 3:
+        setChangeView(2);
+        break;
+      default:
+        setChangeView(1);
+    }
+  };
 
   const getClients = async () => {
     fetch(`/api/clients/list/${session.user.role}`).then(async (response) => {
@@ -93,17 +141,20 @@ export default function EstimateForm() {
     );
   };
 
-  const [itemsStg, setItemsStg] = useState("");
+  const [items, setItems] = useState([]);
+
+  const updateItems = () => {
+    let stg = JSON.stringify(items);
+    form.setValue("items", stg);
+  };
 
   const TableForm = () => {
     //? Estados da tabela de serviços
-    const [items, setItems] = useState([]);
     const [newItemName, setNewItemName] = useState("");
-    const [newItemVal, setNewItemVal] = useState("0");
+    const [newItemVal, setNewItemVal] = useState("");
     useEffect(() => {
-      let stg = JSON.stringify(items);
-      form.setValue("items", stg);
-    });
+      updateItems();
+    }, [items]);
 
     const removeItem = async (id) => {
       setItems(items.filter((item) => item.id !== id));
@@ -111,238 +162,322 @@ export default function EstimateForm() {
 
     const addItem = async () => {
       if (newItemName && newItemVal) {
-        const newItem = {
-          id: items.length + 1, // Pode ser um ID gerado dinamicamente
+        let newItem = {
+          id: items.length + 1,
           nome: newItemName,
           valor: newItemVal,
         };
         setItems([...items, newItem]); // Atualizando a tabela com o novo item
         setNewItemName(""); // Limpando os inputs
-        setNewItemVal("");
+        setNewItemVal("0");
         return true;
       }
     };
 
     return (
-      <div className="p-4">
-        <h2 className="text-2xl font-bold mb-4">Items do orçamento</h2>
-        {/* Inputs para adicionar novo item */}
-        <div className="flex space-x-2 mb-4">
-          <Input
-            value={newItemName}
-            onChange={(e) => setNewItemName(e.target.value)}
-            placeholder="Nome do item"
-          />
-          <Input
-            value={newItemVal}
-            onChange={(e) => setNewItemVal(e.target.value)}
-            placeholder="Valor"
-          />
-          <Button
-            onClick={async () => {
-              let a = await addItem();
-              if (a) {
-                form.setValue("items", JSON.stringify(items));
-              }
-            }}
-          >
-            Adicionar Item
-          </Button>
-        </div>
-
+      <div className="border-2 border-black rounded-lg p-10 w-[50vw]">
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead>Nome</TableHead>
-              <TableHead>Valor</TableHead>
-              <TableHead>Ações</TableHead>
+            <TableRow className=" bg-stone-950 hover:bg-stone-800 dark:bg-black dark:hover:bg-black">
+              <TableHead className="text-white text-center w-[10px]">
+                ID
+              </TableHead>
+              <TableHead className="text-white pl-5 w-[300px]">
+                DESCRIÇÃO
+              </TableHead>
+              <TableHead className="text-white">VALOR</TableHead>
+              <TableHead className="text-white w-[30px]">AÇÕES</TableHead>
             </TableRow>
           </TableHeader>
 
           <TableBody>
             {items.map((item) => (
               <TableRow key={item.id}>
-                <TableCell>{item.id}</TableCell>
-                <TableCell>{item.nome}</TableCell>
+                <TableCell className="text-center">{item.id}</TableCell>
+                <TableCell className="pl-5">{item.nome}</TableCell>
                 <TableCell>{item.valor}</TableCell>
                 <TableCell>
-                  <Button
-                    variant="destructive"
-                    onClick={() => removeItem(item.id)}
-                  >
-                    <Trash />
+                  <Button variant="ghost" onClick={() => removeItem(item.id)}>
+                    <Trash className="text-red-500" />
                   </Button>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
+
+        <div className="flex space-x-2 mt-4 ">
+          <Input
+            value={newItemName}
+            onChange={(e) => setNewItemName(e.target.value)}
+            placeholder="Serviço / Material"
+          />
+          <Input
+            value={newItemVal}
+            onChange={(e) => setNewItemVal(e.target.value)}
+            placeholder="Valor Ex: 1.50"
+          />
+          <Button
+            type="button"
+            onClick={async (e) => {
+              e.preventDefault();
+              let a = await addItem();
+              if (a) {
+                setTimeout(async () => {
+                  form.setValue("items", JSON.stringify(items));
+                }, 3000);
+              }
+            }}
+          >
+            <Plus />
+          </Button>
+        </div>
       </div>
     );
   };
 
   if (session) {
     return (
-      <div className="flex p-5 w-fit h-fit">
+      <div className="flex flex-col gap-3 p-5 w-fit h-fit items-center justify-center">
+        <Breadcrumb className="absolute m-auto top-10">
+          <BreadcrumbList>
+            {changeView >= 1 ? (
+              <>
+                <BreadcrumbItem>
+                  <Users size={18} /> <h4>Informações do cliente</h4>
+                </BreadcrumbItem>
+              </>
+            ) : (
+              <></>
+            )}
+            {changeView >= 2 ? (
+              <>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <Table2 size={18} /> <h4>Items / Serviços</h4>
+                </BreadcrumbItem>
+              </>
+            ) : (
+              <></>
+            )}
+            {changeView >= 3 ? (
+              <>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <Check size={18} /> Gerar orçamento
+                </BreadcrumbItem>
+              </>
+            ) : (
+              <></>
+            )}
+          </BreadcrumbList>
+        </Breadcrumb>
         <Form {...form}>
           <form onSubmit={(e) => submit(e)} className="space-y-8">
-            <span className="hidden">
-              <FormField
-                control={form.control}
-                name="role"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input disabled {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </span>
-            <FormField
-              control={form.control}
-              name="date"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Data de execução</FormLabel>
-                  <FormControl>
-                    <Input type="date" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {changeView == 1 ? (
+              <div className="flex flex-row gap-36 border-2 border-black rounded-lg p-10">
+                <span className=" flex flex-col gap-5">
+                  <FormField
+                    control={form.control}
+                    name="role"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input type="hidden" disabled {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="date"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Data de execução</FormLabel>
+                        <FormControl>
+                          <Input
+                            className="text-center"
+                            type="datetime-local"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="desc"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Descrição</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Orçamento válido por x dias"
+                            className="w-[300px] min-h-[180px] dark:bg-black"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </span>
 
-            <FormField
-              control={form.control}
-              name="desc"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Descrição</FormLabel>
-                  <FormControl>
-                    <Input type="text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <span className="p-3 flex flex-col gap-3 border border-stone-400 dark:border-stone-300 rounded-lg">
-              <Select
-                onOpenChange={() => {
-                  async function fetchD() {
-                    await getClients();
-                  }
-                  fetchD();
-                }}
-                onValueChange={(v) => {
-                  setClientDetails(v);
-                  toast({ description: "Carregando dados do cliente." });
-                }}
-              >
-                <SelectTrigger className=" bg-white dark:bg-black">
-                  <SelectValue placeholder="Clientes" />
-                </SelectTrigger>
-                <SelectContent>
-                  <Button
-                    onClick={() => redirect("/app/servicos/novo/cliente")}
-                    className="w-[100%]"
-                    variant="ghost"
+                <span className="p-3 flex flex-col gap-3 border border-stone-400 dark:border-stone-300 rounded-lg">
+                  <Select
+                    onOpenChange={() => {
+                      async function fetchD() {
+                        await getClients();
+                      }
+                      fetchD();
+                    }}
+                    onValueChange={(v) => {
+                      setClientDetails(v);
+                      toast({ description: "Carregando dados do cliente." });
+                    }}
                   >
-                    <Plus /> Novo cliente
-                  </Button>
-                  {hasD ? (
-                    d.map((i) => {
-                      return (
-                        <SelectItem value={i.clientId} key={i.clientId}>
-                          {i.name}
+                    <SelectTrigger className=" bg-white dark:bg-black">
+                      <SelectValue placeholder="Clientes" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <Button
+                        onClick={() => redirect("/app/servicos/novo/cliente")}
+                        className="w-[100%]"
+                        variant="ghost"
+                      >
+                        <Plus /> Novo cliente
+                      </Button>
+                      {hasD ? (
+                        d.map((i) => {
+                          return (
+                            <SelectItem value={i.clientId} key={i.clientId}>
+                              {i.name}
+                            </SelectItem>
+                          );
+                        })
+                      ) : (
+                        <SelectItem disabled value="0">
+                          Carregando clientes...
                         </SelectItem>
-                      );
-                    })
-                  ) : (
-                    <SelectItem disabled value="0">
-                      Carregando clientes...
-                    </SelectItem>
-                  )}
-                </SelectContent>
-              </Select>
+                      )}
+                    </SelectContent>
+                  </Select>
 
-              <FormField
-                control={form.control}
-                name="cadastro"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>CPF/CNPJ do cliente </FormLabel>
-                    <FormControl>
-                      <Input placeholder="000 000 000 00" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                  <FormField
+                    control={form.control}
+                    name="cadastro"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>CPF/CNPJ do cliente </FormLabel>
+                        <FormControl>
+                          <Input placeholder="000 000 000 00" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-              <FormField
-                control={form.control}
-                name="clientId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                  <FormField
+                    control={form.control}
+                    name="clientId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input type="hidden" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-              <FormField
-                control={form.control}
-                name="clientNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Número do cliente </FormLabel>
-                    <FormControl>
-                      <Input placeholder="00 0000 0000" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                  <FormField
+                    control={form.control}
+                    name="clientNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Número do cliente </FormLabel>
+                        <FormControl>
+                          <Input placeholder="00 0000 0000" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-              <FormField
-                control={form.control}
-                name="clientAddress"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Endereço </FormLabel>
-                    <FormControl>
-                      <Input placeholder="Rua sem nome, 01" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </span>
-
-            <FormField
-              control={form.control}
-              name="items"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input type="text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+                  <FormField
+                    control={form.control}
+                    name="clientAddress"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Endereço </FormLabel>
+                        <FormControl>
+                          <Input placeholder="Rua sem nome, 01" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </span>
+              </div>
+            ) : (
+              <></>
+            )}
+            {/*//? VIEW DE INSERIR DADOS NO ORÇAMENTO*/}
+            {changeView == 2 ? <TableForm /> : <></>}
+            {changeView == 3 && form.getValues("cadastro") != undefined ? ( //! PRECISA CHECAR SE O CLIENTE ESTÁ DEFINIDO.
+              <span className="min-w-[60vw] bg-white">
+                <PreviewEstimate data={form.getValues()} />
+              </span>
+            ) : (
+              <></>
+            )}
+            <span className="flex flex-row gap-6 absolute align-baseline bottom-10">
+              {changeView > 1 ? (
+                <Button
+                  variant="secondary"
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    backward();
+                  }}
+                >
+                  Voltar
+                </Button>
+              ) : (
+                <></>
               )}
-            />
+              {changeView !== 3 ? (
+                <Button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    updateItems();
+                    forward();
+                  }}
+                >
+                  Próximo
+                </Button>
+              ) : (
+                <></>
+              )}
 
-            <Button type="submit">Registrar</Button>
+              {changeView == 3 ? (
+                <Button type="submit">Registrar</Button>
+              ) : (
+                <></>
+              )}
+            </span>
           </form>
         </Form>
-        <TableForm />
       </div>
+    );
+  } else {
+    return (
+      <span className="min-h-screen content-center">
+        <img src="https://i.imgur.com/vQxxDbM.png" alt="logo" />
+      </span>
     );
   }
 }

@@ -1,20 +1,16 @@
 "use client";
 
 import {
-  Calendar,
   ChevronDown,
   ChevronUp,
-  Home,
+  HandCoins,
   House,
-  Inbox,
   Minus,
   Paperclip,
   Plus,
-  Search,
-  Settings,
   SidebarIcon,
   Table,
-  User2,
+  UserPlus,
 } from "lucide-react";
 
 import {
@@ -30,6 +26,12 @@ import {
   SidebarSeparator,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Collapsible } from "@radix-ui/react-collapsible";
+import { StackIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { Avatar, AvatarImage } from "./ui/avatar";
+import { CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -37,14 +39,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { Avatar, AvatarImage } from "./ui/avatar";
-import Link from "next/link";
-import { redirect, usePathname } from "next/navigation";
-import { Collapsible } from "@radix-ui/react-collapsible";
-import { CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
-import { StackIcon } from "@radix-ui/react-icons";
-import ThemedSection from "./ui/themedSection";
-import { Button } from "./ui/button";
 
 export function AppSidebar({ session }) {
   const { toggleSidebar } = useSidebar();
@@ -54,7 +48,9 @@ export function AppSidebar({ session }) {
       <Sidebar collapsible="offcanvas">
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel>StackFlex - v1.0</SidebarGroupLabel>
+            <SidebarGroupLabel className="text-center font-bold w-[100%]">
+              StackFlex - v1.0
+            </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu className="gap-3">
                 <SidebarSeparator />
@@ -109,6 +105,35 @@ export function AppSidebar({ session }) {
             <SidebarGroup>
               <SidebarGroupLabel asChild>
                 <CollapsibleTrigger>
+                  Clientes
+                  <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                </CollapsibleTrigger>
+              </SidebarGroupLabel>
+              <CollapsibleContent>
+                <SidebarMenuButton
+                  onClick={() => redirect("/app/servicos")}
+                  className="w-fit"
+                >
+                  <HandCoins />
+                  Devedores
+                </SidebarMenuButton>
+                <SidebarMenuButton
+                  onClick={() => redirect("/app/servicos/novo/cliente")}
+                  className="w-fit"
+                >
+                  <UserPlus />
+                  Novo cliente
+                </SidebarMenuButton>
+
+                <SidebarGroupContent />
+              </CollapsibleContent>
+            </SidebarGroup>
+          </Collapsible>
+
+          <Collapsible defaultOpen className="group/collapsible">
+            <SidebarGroup>
+              <SidebarGroupLabel asChild>
+                <CollapsibleTrigger>
                   Serviços
                   <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
                 </CollapsibleTrigger>
@@ -122,12 +147,13 @@ export function AppSidebar({ session }) {
                   Orçamentos
                 </SidebarMenuButton>
                 <SidebarMenuButton
-                  onClick={() => redirect("/app/servicos/novaordem")}
+                  onClick={() => redirect("/app/servicos/novo/orcamento")}
                   className="w-fit"
                 >
                   <Paperclip />
-                  Nova O.S.
+                  Novo orçamento
                 </SidebarMenuButton>
+
                 <SidebarGroupContent />
               </CollapsibleContent>
             </SidebarGroup>
@@ -173,7 +199,7 @@ export function AppSidebar({ session }) {
         </SidebarFooter>
       </Sidebar>
       <span
-        className="relative h-fit left-[10px] top-[10px] p-1 dark:bg-gray-600 bg-zinc-100 rounded-md shadow-md"
+        className="relative h-fit cursor-pointer left-[10px] top-[10px] p-1 dark:bg-gray-600 bg-zinc-100 rounded-md shadow-md"
         onClick={toggleSidebar}
       >
         <SidebarIcon size={18} />
