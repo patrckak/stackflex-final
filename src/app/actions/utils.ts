@@ -13,3 +13,10 @@ export function formatID(id) {
     return { msg: "Documento inválido", status: 0 };
   }
 }
+
+export function somarTotal(json) {
+  let total = 0;
+  let js = JSON.parse(json);
+  js.map((i) => (total = total + parseFloat(i.valor)));
+  return total;
+}

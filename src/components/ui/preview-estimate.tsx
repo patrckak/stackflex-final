@@ -9,18 +9,33 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { PencilLine } from "lucide-react";
+import { Input } from "./input";
+import { Label } from "./label";
 
 export default function PreviewEstimate({ data }) {
   const items = JSON.parse(data.items);
-  console.log(data);
   var total = 0;
   return (
-    <span className="flex flex-col gap-3 items-center border-2 border-black rounded-lg p-10 w-[50vw] ">
-      <h1 className="text-xl">{formatID(data.cadastro).msg}</h1>
+    <span className="flex flex-col gap-3 items-center border-2 border-black rounded-lg p-10 min-w-[50vw] min-h-[60vh] max-h-[65vh] ">
+      <h1 className="text-xl flex gap-1 items-center">
+        Cliente:{" "}
+        <p className="font-black text-2xl font-mono">
+          {formatID(data.cadastro).msg}
+        </p>
+      </h1>
+      <span className="flex flex-row gap-3">
+        <span className="justify-self-start flex gap-2 flex-col items-center">
+          <Label htmlFor="data">Data de Execução</Label>
+          <Input
+            name="data"
+            className="w-36 text-black dark:text-white"
+            type="date"
+            defaultValue={data.date}
+          />
+        </span>
+      </span>
       <Table className="p-5 flex flex-col gap-2">
-        <TableCaption>{data.desc}</TableCaption>
-        <TableHeader className="">
+        <TableHeader className="w-max">
           <TableRow className="border bg-stone-950 hover:bg-stone-600 dark:bg-black dark:hover:bg-black">
             <TableHead className="max-w-[10px] rounded-l-lg font-bold text-center text-white">
               ID
@@ -59,6 +74,7 @@ export default function PreviewEstimate({ data }) {
             <TableCell className="w-[100%] text-right font-black">
               TOTAL:
             </TableCell>
+            {/* //! ADICIONAR CONDICIONAL PARA MOSTRAR TOTAL COM DESCONTO CASO TENHA. */}
             <TableCell className="w-[100%] text-left font-black text-red-500 dark:text-red-400">
               {total.toLocaleString("pt-br", {
                 style: "currency",
@@ -69,6 +85,7 @@ export default function PreviewEstimate({ data }) {
             </TableCell>
           </TableRow>
         </TableBody>
+        <TableCaption>{data.desc}</TableCaption>
       </Table>
     </span>
   );

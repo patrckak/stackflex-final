@@ -4,11 +4,30 @@
 
 ## TODOs
 
+### APP WEB
+
+* [x] Autenticação via credenciais
 * [ ] Adicionar autenticação com google oAuth
 * [x] Re-design de toda landpage.
 * [ ] Sistema de estoque
-* [ ] Sistema de Serviços / Orçamentos
-* [ ] Aprovação de orçamentos via links
+  * [ ] Adição de items do estoque no orçamento
+  * [ ] Remover items automaticamente se OS finalizada
+* [x] Sistema de criação Orçamentos
+  * [ ] Aprovação de orçamentos via links
+* [ ] Gerencia de funcionarios
+  * [ ] Registrar / Demitir funcionario (funcionarios devem permancer no banco da empresa mesmo após demissão por questões juridicas.)
+  * [ ] Delegar agenda/serviços para funcionário
+  * [ ] Gerenciar ferramentas / veiculos que estão em uso por funcionário
+  * [ ] Status do funcionario (em folga | ocioso | em serviço)
+* [ ] Gerenciar clientes
+
+---
+
+### APP MOBILE
+
+* [ ] Criar app mobile para uso de funcionarios em serviço
+
+---
 
 ### Códigos de erro
 

@@ -110,7 +110,7 @@ export default function EstimateForm() {
     let r = newEstimate(form.getValues());
     console.log(await r);
     if ((await r).status != 0) {
-      toast({ description: (await r).msg });
+      toast({ description: "✓ " + (await r).msg });
     } else {
       toast({ variant: "destructive", description: (await r).msg });
     }
@@ -128,7 +128,6 @@ export default function EstimateForm() {
           });
         }
         if (res) {
-          console.log(res);
           form.setValue("cadastro", res.cadastro);
           form.setValue("clientAddress", res.address);
           form.setValue("clientNumber", res.contact);
@@ -175,10 +174,14 @@ export default function EstimateForm() {
     };
 
     return (
-      <div className="border-2 border-black rounded-lg p-10 w-[50vw]">
+      <div
+        className="border-2 border-black rounded-lg p-10 w-[60vw] min-h-[60vh] max-h-[65vh] overflow-scroll
+      "
+      >
         <Table>
           <TableHeader>
             <TableRow className=" bg-stone-950 hover:bg-stone-800 dark:bg-black dark:hover:bg-black">
+              <TableHead className="text-white w-[30px]">AÇÕES</TableHead>
               <TableHead className="text-white text-center w-[10px]">
                 ID
               </TableHead>
@@ -186,21 +189,20 @@ export default function EstimateForm() {
                 DESCRIÇÃO
               </TableHead>
               <TableHead className="text-white">VALOR</TableHead>
-              <TableHead className="text-white w-[30px]">AÇÕES</TableHead>
             </TableRow>
           </TableHeader>
 
           <TableBody>
             {items.map((item) => (
               <TableRow key={item.id}>
-                <TableCell className="text-center">{item.id}</TableCell>
-                <TableCell className="pl-5">{item.nome}</TableCell>
-                <TableCell>{item.valor}</TableCell>
                 <TableCell>
                   <Button variant="ghost" onClick={() => removeItem(item.id)}>
                     <Trash className="text-red-500" />
                   </Button>
                 </TableCell>
+                <TableCell className="text-center">{item.id}</TableCell>
+                <TableCell className="pl-5">{item.nome}</TableCell>
+                <TableCell>{item.valor}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -239,43 +241,10 @@ export default function EstimateForm() {
   if (session) {
     return (
       <div className="flex flex-col gap-3 p-5 w-fit h-fit items-center justify-center">
-        <Breadcrumb className="absolute m-auto top-10">
-          <BreadcrumbList>
-            {changeView >= 1 ? (
-              <>
-                <BreadcrumbItem>
-                  <Users size={18} /> <h4>Informações do cliente</h4>
-                </BreadcrumbItem>
-              </>
-            ) : (
-              <></>
-            )}
-            {changeView >= 2 ? (
-              <>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <Table2 size={18} /> <h4>Items / Serviços</h4>
-                </BreadcrumbItem>
-              </>
-            ) : (
-              <></>
-            )}
-            {changeView >= 3 ? (
-              <>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <Check size={18} /> Gerar orçamento
-                </BreadcrumbItem>
-              </>
-            ) : (
-              <></>
-            )}
-          </BreadcrumbList>
-        </Breadcrumb>
         <Form {...form}>
           <form onSubmit={(e) => submit(e)} className="space-y-8">
             {changeView == 1 ? (
-              <div className="flex flex-row gap-36 border-2 border-black rounded-lg p-10">
+              <div className="flex flex-row w-[60vw] min-h-[60vh] max-h-[65vh] gap-24 justify-between border-2 border-black rounded-lg p-10">
                 <span className=" flex flex-col gap-5">
                   <FormField
                     control={form.control}
@@ -298,7 +267,7 @@ export default function EstimateForm() {
                         <FormControl>
                           <Input
                             className="text-center"
-                            type="datetime-local"
+                            type="date"
                             {...field}
                           />
                         </FormControl>
@@ -471,6 +440,39 @@ export default function EstimateForm() {
             </span>
           </form>
         </Form>
+        <Breadcrumb className="absolute m-auto top-14 ">
+          <BreadcrumbList>
+            {changeView >= 1 ? (
+              <>
+                <BreadcrumbItem>
+                  <Users size={18} /> <h4>Informações do cliente</h4>
+                </BreadcrumbItem>
+              </>
+            ) : (
+              <></>
+            )}
+            {changeView >= 2 ? (
+              <>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <Table2 size={18} /> <h4>Items / Serviços</h4>
+                </BreadcrumbItem>
+              </>
+            ) : (
+              <></>
+            )}
+            {changeView >= 3 ? (
+              <>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <Check size={18} /> Gerar orçamento
+                </BreadcrumbItem>
+              </>
+            ) : (
+              <></>
+            )}
+          </BreadcrumbList>
+        </Breadcrumb>
       </div>
     );
   } else {

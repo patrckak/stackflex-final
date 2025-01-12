@@ -2,6 +2,8 @@
 
 import { prisma } from "@/lib/prisma";
 import { ComparePasswords } from "../../components/db/crypt";
+import { gerarValidação } from "@/components/db/genValidation";
+import { somarTotal } from "./utils";
 
 export async function newEstimate(data: any) {
   const {
@@ -16,7 +18,7 @@ export async function newEstimate(data: any) {
     descont,
   } = data;
   try {
-    console.log(data);
+    var st = "";
     let update = await prisma.user.update({
       where: { id: role },
       data: {
@@ -24,9 +26,14 @@ export async function newEstimate(data: any) {
           create: {
             clientId: clientId,
             description: desc,
+            clientAddress: clientAddress,
+            clientNumber: clientNumber,
+            clientCadastro: cadastro,
             date: date,
+            key: parseInt(await gerarValidação()),
             items: items,
-            descont: 0,
+            value: somarTotal(items),
+            descont: descont,
           },
         },
       },
@@ -44,6 +51,7 @@ export async function newEstimate(data: any) {
       };
     }
   } catch (error) {
+    console.log("deu zica");
     return {
       msg: "ERRO SF102: Erro interno ao gerar orçamento, contate o suporte.",
       status: 0,
