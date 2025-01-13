@@ -38,7 +38,9 @@ export async function newEstimate(data: any) {
         },
       },
     });
-    if (update) return { msg: "Orçamento criado" };
+    if (update) {
+      return { msg: "Orçamento criado" };
+    }
     if (!update) {
       return {
         msg: "ERRO SF005: Erro ao gerar orçamento, contate o suporte. ", // não foi encontrado o id

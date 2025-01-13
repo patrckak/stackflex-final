@@ -111,6 +111,9 @@ export default function EstimateForm() {
     console.log(await r);
     if ((await r).status != 0) {
       toast({ description: "✓ " + (await r).msg });
+      setTimeout(() => {
+        redirect("/app/servicos");
+      }, 500);
     } else {
       toast({ variant: "destructive", description: (await r).msg });
     }
@@ -124,16 +127,16 @@ export default function EstimateForm() {
           return toast({
             variant: "destructive",
             description:
-              "Erro ao buscar dados do cliente. por favor insira manualmente.",
+              "Erro ao buscar dados do cliente. Por favor revise na aba 'clientes'.",
           });
         }
         if (res) {
-          form.setValue("cadastro", res.cadastro);
+          form.setValue("cadastro", res.name);
           form.setValue("clientAddress", res.address);
           form.setValue("clientNumber", res.contact);
           form.setValue("clientId", res.clientId);
           toast({
-            description: "Dados do cliente encontrados.",
+            description: "✓ Informações atualizadas.",
           });
         }
       }
@@ -174,10 +177,7 @@ export default function EstimateForm() {
     };
 
     return (
-      <div
-        className="border-2 border-black rounded-lg p-10 w-[60vw] min-h-[60vh] max-h-[65vh] overflow-scroll
-      "
-      >
+      <div className="border-2 border-black bg-white dark:bg-zinc-800 rounded-lg p-10 w-[60vw] min-h-[60vh] max-h-[65vh] no-scrollbar  overflow-scroll">
         <Table>
           <TableHeader>
             <TableRow className=" bg-stone-950 hover:bg-stone-800 dark:bg-black dark:hover:bg-black">
@@ -244,7 +244,7 @@ export default function EstimateForm() {
         <Form {...form}>
           <form onSubmit={(e) => submit(e)} className="space-y-8">
             {changeView == 1 ? (
-              <div className="flex flex-row w-[60vw] min-h-[60vh] max-h-[65vh] gap-24 justify-between border-2 border-black rounded-lg p-10">
+              <div className="flex flex-row w-[60vw] min-h-[60vh] max-h-[65vh] gap-24 justify-between border-2 border-black bg-white dark:bg-zinc-800 rounded-lg p-10">
                 <span className=" flex flex-col gap-5">
                   <FormField
                     control={form.control}
@@ -294,7 +294,7 @@ export default function EstimateForm() {
                   />
                 </span>
 
-                <span className="p-3 flex flex-col gap-3 border border-stone-400 dark:border-stone-300 rounded-lg">
+                <span className="p-3 flex flex-col gap-3 border-2 border-stone-400 dark:border-stone-950  rounded-lg">
                   <Select
                     onOpenChange={() => {
                       async function fetchD() {
@@ -339,9 +339,9 @@ export default function EstimateForm() {
                     name="cadastro"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>CPF/CNPJ do cliente </FormLabel>
+                        <FormLabel>Nome cadastrado </FormLabel>
                         <FormControl>
-                          <Input placeholder="000 000 000 00" {...field} />
+                          <Input placeholder="João da Silva" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

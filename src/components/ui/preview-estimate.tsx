@@ -16,12 +16,10 @@ export default function PreviewEstimate({ data }) {
   const items = JSON.parse(data.items);
   var total = 0;
   return (
-    <span className="flex flex-col gap-3 items-center border-2 border-black rounded-lg p-10 min-w-[50vw] min-h-[60vh] max-h-[65vh] ">
+    <span className="flex flex-col gap-3 items-center border-2 border-black bg-white dark:bg-zinc-800 rounded-lg p-10 min-w-[50vw] min-h-[60vh] max-h-[65vh] ">
       <h1 className="text-xl flex gap-1 items-center">
-        Cliente:{" "}
-        <p className="font-black text-2xl font-mono">
-          {formatID(data.cadastro).msg}
-        </p>
+        Cliente:
+        <p className="font-black text-2xl font-mono">{data.cadastro}</p>
       </h1>
       <span className="flex flex-row gap-3">
         <span className="justify-self-start flex gap-2 flex-col items-center">
@@ -54,7 +52,7 @@ export default function PreviewEstimate({ data }) {
             return (
               <>
                 <TableRow
-                  className=" bg-zinc-300 hover:bg-zinc-400 dark:bg-cyan-950 dark:hover:bg-cyan-900 border-0"
+                  className=" bg-zinc-50 hover:bg-zinc-100 dark:bg-zinc-900 dark:text-white border-0"
                   key={i.id}
                 >
                   <TableCell className="mt-2 text-center">{i.id}</TableCell>

@@ -62,7 +62,7 @@ const Columns: ColumnDef<Estimate>[] = [
     header: "Status",
   },
   {
-    accessorKey: "clientId",
+    accessorKey: "clientCadastro",
     header: "Cliente",
   },
   {
