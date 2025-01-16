@@ -43,11 +43,10 @@ export async function newEstimate(data: any) {
     }
     if (!update) {
       return {
-        msg: "ERRO SF005: Erro ao gerar orçamento, contate o suporte. ", // não foi encontrado o id
+        msg: "Erro ao gerar orçamento, contate o suporte. SF-005", // não foi encontrado o id
         status: 0,
       };
     } else {
-      console.log(update);
       return {
         msg: "Orçamento criado com sucesso.",
       };
@@ -55,11 +54,74 @@ export async function newEstimate(data: any) {
   } catch (error) {
     console.log("deu zica");
     return {
-      msg: "ERRO SF102: Erro interno ao gerar orçamento, contate o suporte.",
+      msg: "Erro interno ao gerar orçamento, contate o suporte. SF-102",
       status: 0,
     };
   }
 }
+
+export const markReadyEstimate = async (role: string, id: any) => {
+  try {
+    let user = await prisma.user.findUnique({ where: { id: role } });
+    if (user) {
+      let estimate = await prisma.estimates.update({
+        where: { estimateId: id },
+        data: {
+          status: "Finalizado.",
+        },
+      });
+      if (estimate) {
+        return { msg: "Orçamento marcado como finalizado." };
+      } else {
+        return { msg: "Erro interno ao editar orçamento. SF-006", status: 0 };
+      }
+    }
+  } catch (err) {}
+};
+
+export const getEstimateData = async (role: string, id: any) => {
+  try {
+    let user = await prisma.user.findUnique({ where: { id: role } });
+    if (user) {
+      let es = await prisma.estimates.findFirst({ where: { estimateId: id } });
+      if (es) {
+        return { msg: "ok", data: es };
+      } else {
+        return {
+          msg: "Erro ao recuperar dados do orçamento. SF-008",
+          status: 0,
+        };
+      }
+    } else {
+      return { msg: "Erro ao encontrar usuário. SF-003", status: 0 };
+    }
+  } catch (error) {}
+};
+
+export const deleteEstimate = async (
+  role: string,
+  id: any,
+  password: string
+) => {
+  try {
+    let user = await prisma.user.findUnique({ where: { id: role } });
+    if (user) {
+      let passwordsMatch = await ComparePasswords(password, user.password);
+      if (await passwordsMatch) {
+        let es = await prisma.estimates.delete({
+          where: { estimateId: id },
+        });
+        if (es) {
+          return { msg: " Orçamento excluido com sucesso." };
+        }
+      } else {
+        return { msg: "Senha incorreta. SF-002", status: 0 };
+      }
+    } else {
+      return { msg: "Erro ao identificar usuário. SF-003", status: 0 };
+    }
+  } catch (err) {}
+};
 
 export const listEstimate = async (role: string) => {
   try {

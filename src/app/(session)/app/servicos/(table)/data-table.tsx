@@ -15,6 +15,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import { redirect } from "next/navigation";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -32,14 +35,14 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="shadow-lg">
+    <div className="m-auto border-2 border-black bg-white dark:bg-zinc-800 rounded-lg p-10 w-[60vw] min-h-[60vh] max-h-[65vh] no-scrollbar  overflow-scroll">
       <Table>
-        <TableHeader>
+        <TableHeader className="bg-stone-950 hover:bg-stone-800 dark:bg-black dark:hover:bg-black ">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead className="" key={header.id}>
+                  <TableHead className="text-white" key={header.id}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -68,8 +71,20 @@ export function DataTable<TData, TValue>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
+              <TableCell
+                colSpan={columns.length}
+                className="h-24 text-center p-10 "
+              >
                 Sem orçamentos até então.
+                <br />
+                <br />
+                <Button
+                  onClick={() => {
+                    redirect("/app/servicos/novo/orcamento");
+                  }}
+                >
+                  <Plus /> Novo orçamento
+                </Button>
               </TableCell>
             </TableRow>
           )}

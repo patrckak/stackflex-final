@@ -60,14 +60,14 @@ model Funcionarios {
 
 model Estimates {
   // Orçamentos
-  estimateId     String   @id @default(cuid())
+  estimateId     String   @id @unique @default(cuid())
   id             String
   clientId       String
   clientAddress  String?
   clientNumber   String?
   clientCadastro String?
   description    String?
-  date           String?
+  date           String?  @default("2000-01-01")
   key            Int      @default(0) // chave de acesso do orçamento
   status         String   @default("Aguardando Aprovação")
   createdAt      DateTime @default(now())

@@ -13,7 +13,7 @@ const NotFound = async () => {
   if (session) {
     return (
       <ThemedSection>
-        <span className="text-center flex-col flex gap-2">
+        <span className="text-center flex-col flex gap-2 h-[100vh]">
           <h3>Página não encontrada :(</h3>
           <h6 className="text-sm">StackFlex - v1.1</h6>
           <Link href="/app/dashboard">

@@ -49,7 +49,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: process.env.AUTH_SECRET,
   callbacks: {
     async jwt({ token, user }: any) {
-      /* TODO adicionar refresh token ao session object  */
       if (user) {
         token.name = user.name;
         token.cpf = user.cpf;

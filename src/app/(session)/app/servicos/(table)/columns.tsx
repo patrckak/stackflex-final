@@ -1,82 +1,67 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
-import { Check, Edit, MoreHorizontal, Share } from "lucide-react";
+import { Settings } from "lucide-react";
+import { redirect } from "next/navigation";
+import { format } from "date-fns";
 
 export type Estimate = {
   value: number;
-  clientId: string;
   status: string;
-  id: string;
+  clientCadastro: string;
+  estimateId: string;
   date: string;
 };
 
 const Columns: ColumnDef<Estimate>[] = [
   {
+    sortingFn: "datetime",
     id: "actions",
-    header: "Ações",
+    header: "Editar",
     cell: ({ row }) => {
       const estimate = row.original;
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Ações</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => {
-                navigator.clipboard.writeText(
-                  `localhost:3000/visualizar/orcamento/${estimate.clientId}/${estimate.id}`
-                );
-              }}
-            >
-              <Share /> Compartilhar
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Edit /> Editar
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Check /> Finalizar
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Button
+          variant="ghost"
+          onClick={() => {
+            redirect(`/app/servicos/visualizar/${estimate.estimateId}`);
+          }}
+        >
+          <Settings />
+        </Button>
       );
     },
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
   },
   {
     accessorKey: "clientCadastro",
     header: "Cliente",
   },
   {
-    accessorKey: "value",
-    header: "R$",
+    accessorKey: "status",
+    header: "Status",
   },
   {
     accessorKey: "date",
     header: "Emissão",
+    cell: ({ row }) => {
+      const estimate = row.original;
+      let formatedDate = format(estimate.date, "dd/MM/yyyy");
+      return formatedDate;
+    },
   },
-
   {
-    accessorKey: "id",
-    header: "ID",
+    accessorKey: "value",
+    header: "R$",
+    cell: ({ row }) => {
+      const estimate = row.original;
+      let formatedVal = estimate.value.toLocaleString("pt-br", {
+        style: "currency",
+        currency: "BRL",
+      });
+      return formatedVal;
+    },
   },
 ];
 

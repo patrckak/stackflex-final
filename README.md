@@ -20,6 +20,9 @@
   * [ ] Gerenciar ferramentas / veiculos que estão em uso por funcionário
   * [ ] Status do funcionario (em folga | ocioso | em serviço)
 * [ ] Gerenciar clientes
+  * [ ] Clientes devedores
+  * [ ] Criar/Apagar/Editar cliente
+  * [ ] Lista de clientes
 
 ---
 
@@ -35,4 +38,10 @@
 * SFM > Erro no App mobile
 * SFI > Erro no Servidor interno
 
-* 001 > 
+* 002 > Credencial inválida / incorreta.
+* 003 > Usuário não encontrado.
+* 004
+* 005 > ID não encontrado.
+* 006 > Erro interno ao editar orçamento.
+* 102 > Erro interno ao gerar orçamento.
+  
