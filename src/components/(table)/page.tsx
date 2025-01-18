@@ -7,7 +7,6 @@ export default async function EstimateTable() {
   const session = await auth();
   if (session) {
     const data = await listEstimate(session.user.role);
-    console.log(data);
 
     return (
       <div className="container mx-auto py-10">

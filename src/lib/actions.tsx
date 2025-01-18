@@ -61,7 +61,7 @@ export async function createEstimate(data: any) {
 }
 
 export async function getUserAuth(cpf: any, password: any) {
-  let userExits = await prisma.user.findUnique({ where: { public_id: cpf } });
+  let userExits = await prisma.user.findFirst({ where: { public_id: cpf } });
   if (userExits) {
     const passwordMatch = await ComparePasswords(password, userExits.password);
     if (passwordMatch) {
