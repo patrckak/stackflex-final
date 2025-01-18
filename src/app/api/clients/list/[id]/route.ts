@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import type { NextRequest } from "next/server";
 
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } } // Alterado para string para garantir o tipo correto
+  request: NextRequest,
+  { params }: { params: { id: string } } // Continuamos com id como string
 ) {
   const { id } = params;
 
