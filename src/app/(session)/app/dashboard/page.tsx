@@ -2,8 +2,7 @@
 
 import { AppSidebar } from "@/components/app-sidebar";
 import { useSession } from "next-auth/react";
-// import CardDashboard from "../../../../components/ui/card-dashboard";
-import ThemedSection from "../../../../components/ui/themedSection";
+import ThemedSection from "@/components/ui/themedSection";
 import Layout from "./layout";
 
 export default function Dashboard() {

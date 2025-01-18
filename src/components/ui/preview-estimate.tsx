@@ -26,7 +26,8 @@ export default function PreviewEstimate({ data }) {
           <Label htmlFor="data">Data de Execução</Label>
           <Input
             name="data"
-            className="w-36 text-black dark:text-white"
+            disabled
+            className="w-36 text-black dark:text-white disabled:text-black "
             type="date"
             defaultValue={data.date}
           />

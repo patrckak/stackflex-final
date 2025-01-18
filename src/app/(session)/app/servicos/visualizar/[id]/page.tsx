@@ -1,13 +1,12 @@
 "use client";
 
+import {
+  deleteEstimate,
+  getEstimateData,
+  markReadyEstimate,
+} from "@/app/actions/estimate";
 import { AppSidebar } from "@/components/app-sidebar";
-import ThemedSection from "@/components/ui/themedSection";
-import Layout from "./layout";
-import { redirect, useParams } from "next/navigation";
-import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import { Check, Copy, Trash } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 import {
   Dialog,
   DialogClose,
@@ -18,14 +17,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  deleteEstimate,
-  getEstimateData,
-  markReadyEstimate,
-} from "@/app/actions/estimate";
+import PreviewEstimate from "@/components/ui/preview-estimate";
+import ThemedSection from "@/components/ui/themedSection";
+import { useToast } from "@/hooks/use-toast";
+import { Check, Copy, Trash } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { redirect, useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import ReactLoading from "react-loading";
+import Layout from "./layout";
+
+import { ring2 } from "ldrs";
 
 export default function VisualizarOrcamento() {
   const { data: session } = useSession({ required: true });
@@ -35,6 +39,7 @@ export default function VisualizarOrcamento() {
   const [viewReadyDialog, setViewReadyDialog] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
   const [data, setData] = useState<any>();
+  ring2.register();
 
   function handleDelete() {
     setViewDeleteDialog(!viewDeleteDialog);
@@ -72,15 +77,16 @@ export default function VisualizarOrcamento() {
     let res = await getEstimateData(session.user.role, id);
     if (res.status == 0) {
       toast({ description: res.msg, variant: "destructive" });
+    } else if (res.status == 2) {
+      return setData({ key: "Orçamento não encontrado." });
     } else {
-      console.log(res);
+      setData(res.data);
     }
   }
 
   useEffect(() => {
     if (session) {
-      console.log("data atualizada.");
-      setData(defData());
+      defData();
     }
   }, [session]);
 
@@ -89,10 +95,24 @@ export default function VisualizarOrcamento() {
       <Layout>
         <AppSidebar session={session} />
         <ThemedSection>
-          <div className="border border-black bg-white dark:bg-zinc-800 rounded-lg p-10 w-[60vw] min-h-[60vh] max-h-[65vh] no-scrollbar  overflow-scroll">
-            teste
+          {data != undefined ? data.key : <></>}
+          <div className="border border-black bg-white dark:bg-zinc-800 rounded-lg p-10 w-[60vw] min-h-[80vh] max-h-[95vh] no-scrollbar  overflow-scroll">
+            {data != undefined ? (
+              <PreviewEstimate data={data} />
+            ) : (
+              <span className="flex h-[100%] justify-center items-center">
+                <l-ring-2
+                  size="40"
+                  stroke="5"
+                  stroke-length="0.25"
+                  bg-opacity="0.1"
+                  speed="0.8"
+                  color="black"
+                ></l-ring-2>
+              </span>
+            )}
           </div>
-          <span className="absolute m-auto bottom-10 border-black rounded-lg">
+          <span className="absolute m-auto top-5 p-2 border-black rounded-lg">
             <Button
               variant="ghost"
               onClick={handleDelete}
@@ -103,13 +123,13 @@ export default function VisualizarOrcamento() {
             <Button
               variant="ghost"
               onClick={handleReady}
-              className="text-emerald-600 hover:text-emerald-700"
+              className="text-emerald-500 hover:text-emerald-700"
             >
               <Check /> Marcar como finalizado
             </Button>
             <Button
               onClick={() => {
-                navigator.clipboard.writeText(`/v/${id}#2321341}`);
+                navigator.clipboard.writeText(`/v/${id}#data.}`);
                 toast({
                   description: "Link copiado.",
                 });

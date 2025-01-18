@@ -85,11 +85,11 @@ export const getEstimateData = async (role: string, id: any) => {
     if (user) {
       let es = await prisma.estimates.findFirst({ where: { estimateId: id } });
       if (es) {
-        return { msg: "ok", data: es };
+        return { data: es, msg: "ok" };
       } else {
         return {
           msg: "Erro ao recuperar dados do orçamento. SF-008",
-          status: 0,
+          status: 2,
         };
       }
     } else {
