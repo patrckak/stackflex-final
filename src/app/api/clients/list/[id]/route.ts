@@ -16,7 +16,8 @@ export async function GET(
     if (clients.length > 0) {
       return NextResponse.json({ data: clients });
     } else {
-      return NextResponse.json({ data: [] }); 
+      return NextResponse.json({ data: [] });
+    }
   } else {
     return NextResponse.json({ data: [] });
   }
