@@ -6,12 +6,8 @@ import ThemedSection from "@/components/ui/themedSection";
 import Layout from "./layout";
 import { useSession } from "next-auth/react";
 
-export default function Page() {
+export default function NovoOrcamento() {
   const { data: session } = useSession();
-
-  if (typeof window === "undefined") {
-    return null; // Isso evita o erro durante o SSR
-  }
 
   if (session) {
     return (
