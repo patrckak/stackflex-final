@@ -9,6 +9,10 @@ import { useSession } from "next-auth/react";
 export default function Page() {
   const { data: session } = useSession();
 
+  if (typeof window === "undefined") {
+    return null; // Isso evita o erro durante o SSR
+  }
+
   if (session) {
     return (
       <Layout>
