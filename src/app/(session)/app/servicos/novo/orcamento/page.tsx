@@ -6,8 +6,17 @@ import ThemedSection from "@/components/ui/themedSection";
 import Layout from "./layout";
 import { useSession } from "next-auth/react";
 
-const Orcamentos = () => {
-  const { data: session } = useSession();
+export default function Page() {
+  const { data: session, status } = useSession();
+
+  if (typeof window === "undefined") {
+    return <div>Carregando...</div>; // Componente temporário no SSR
+  }
+
+  if (status === "loading") {
+    return <div>Carregando sessão...</div>;
+  }
+
   if (session) {
     return (
       <Layout>
@@ -17,9 +26,7 @@ const Orcamentos = () => {
         </ThemedSection>
       </Layout>
     );
-  } else {
-    return <></>;
   }
-};
 
-export default Orcamentos;
+  return <div>Você precisa estar logado.</div>; // Quando não há sessão
+}
