@@ -6,7 +6,7 @@ import ThemedSection from "@/components/ui/themedSection";
 import Layout from "./layout";
 import { useSession } from "next-auth/react";
 
-export default function Orcamentos() {
+const Orcamentos = () => {
   const { data: session } = useSession();
   if (session) {
     return (
@@ -20,4 +20,6 @@ export default function Orcamentos() {
   } else {
     return <></>;
   }
-}
+};
+
+export default Orcamentos;
