@@ -120,15 +120,13 @@ export default function GerarCliente() {
                     )}
                   />
                 </>
-                <Button type="submit">Submit</Button>
+                <span className="">
+                  <Button type="submit" variant="outline" className="">
+                    <Plus /> Registrar
+                  </Button>
+                </span>
               </form>
             </Form>
-
-            <span className="">
-              <Button variant="outline" className="">
-                <Plus /> Registrar
-              </Button>
-            </span>
           </div>
         </ThemedSection>
       </Layout>
