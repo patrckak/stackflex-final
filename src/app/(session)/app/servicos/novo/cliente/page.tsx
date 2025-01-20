@@ -23,7 +23,7 @@ import { clientForm } from "../../../../../../../utils/schemas";
 import { newClient } from "@/app/actions/client";
 import { useToast } from "@/hooks/use-toast";
 
-export default function NovoCliente() {
+export default function Cliente() {
   const { data: session } = useSession();
 
   const form = useForm<z.infer<typeof clientForm>>({

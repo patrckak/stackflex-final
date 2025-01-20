@@ -6,9 +6,8 @@ import ThemedSection from "@/components/ui/themedSection";
 import Layout from "./layout";
 import { useSession } from "next-auth/react";
 
-export default function NovoOrcamento() {
+export default function Orcamentos() {
   const { data: session } = useSession();
-
   if (session) {
     return (
       <Layout>
@@ -18,5 +17,7 @@ export default function NovoOrcamento() {
         </ThemedSection>
       </Layout>
     );
+  } else {
+    return <></>;
   }
 }
