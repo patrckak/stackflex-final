@@ -16,7 +16,7 @@ export default function PreviewEstimate({ data }) {
   const items = JSON.parse(data.items);
   var total = 0;
   return (
-    <span className="flex flex-col gap-3 items-center border-2 border-black bg-white dark:bg-zinc-800 rounded-lg p-10 min-w-[50vw] min-h-[60vh] max-h-[65vh] ">
+    <span className="flex flex-col gap-3 items-center shadow-md  bg-neutral-100 dark:bg-zinc-800 rounded-lg p-10 min-w-[50vw] min-h-[60vh] max-h-[65vh] ">
       <h1 className="text-xl flex gap-1 items-center">
         Cliente:
         <p className="font-black text-2xl font-mono">{data.cadastro}</p>
@@ -34,7 +34,7 @@ export default function PreviewEstimate({ data }) {
         </span>
       </span>
       <Table className="p-5 flex flex-col gap-2">
-        <TableHeader className="w-max">
+        <TableHeader className="w-[100%]">
           <TableRow className="border bg-stone-950 hover:bg-stone-600 dark:bg-black dark:hover:bg-black">
             <TableHead className="max-w-[10px] rounded-l-lg font-bold text-center text-white">
               ID
@@ -73,7 +73,7 @@ export default function PreviewEstimate({ data }) {
             <TableCell className="w-[100%] text-right font-black">
               TOTAL:
             </TableCell>
-            {/* //! ADICIONAR CONDICIONAL PARA MOSTRAR TOTAL COM DESCONTO CASO TENHA. */}
+            {/* //TODO: ADICIONAR CONDICIONAL PARA MOSTRAR TOTAL COM DESCONTO CASO TENHA. */}
             <TableCell className="w-[100%] text-left font-black text-red-500 dark:text-red-400">
               {total.toLocaleString("pt-br", {
                 style: "currency",

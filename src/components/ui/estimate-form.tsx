@@ -45,8 +45,10 @@ import { redirect } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Textarea } from "./textarea";
 import PreviewEstimate from "./preview-estimate";
+import { ring2 } from "ldrs";
 
 export default function EstimateForm() {
+  ring2.register();
   const form = useForm<z.infer<typeof estimateForm>>({
     resolver: zodResolver(estimateForm),
   });
@@ -177,7 +179,7 @@ export default function EstimateForm() {
     };
 
     return (
-      <div className="border-2 border-black bg-white dark:bg-zinc-800 rounded-lg p-10 w-[60vw] min-h-[60vh] max-h-[65vh] no-scrollbar  overflow-scroll">
+      <div className=" min-w-[500px] bg-neutral-100 shadow-md dark:bg-zinc-800 rounded-lg p-10 w-[60vw] min-h-[60vh] max-h-[65vh] no-scrollbar  overflow-scroll">
         <Table>
           <TableHeader>
             <TableRow className=" bg-stone-950 hover:bg-stone-800 dark:bg-black dark:hover:bg-black">
@@ -244,7 +246,7 @@ export default function EstimateForm() {
         <Form {...form}>
           <form onSubmit={(e) => submit(e)} className="space-y-8">
             {changeView == 1 ? (
-              <div className="flex flex-row w-[60vw] min-h-[60vh] max-h-[65vh] gap-24 justify-between border-2 border-black bg-white dark:bg-zinc-800 rounded-lg p-10">
+              <div className="flex flex-row w-[60vw] min-h-[60vh] max-h-[65vh] gap-24 shadow-md justify-between min-w-[500px] bg-neutral-100 dark:bg-zinc-800 rounded-lg p-10">
                 <span className=" flex flex-col gap-5">
                   <FormField
                     control={form.control}
@@ -478,7 +480,14 @@ export default function EstimateForm() {
   } else {
     return (
       <span className="min-h-screen content-center">
-        <img src="https://i.imgur.com/vQxxDbM.png" alt="logo" />
+        <l-ring-2
+          size="40"
+          stroke="5"
+          stroke-length="0.25"
+          bg-opacity="0.1"
+          speed="0.8"
+          color="black"
+        ></l-ring-2>
       </span>
     );
   }

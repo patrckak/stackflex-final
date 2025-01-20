@@ -55,6 +55,14 @@ export const formSchema = z
     path: ["confirmpassword"],
   });
 
+export const clientForm = z.object({
+  role: z.string(),
+  name: z.string({ required_error: "Em branco." }),
+  cadastro: z.string({ required_error: "Em branco." }),
+  address: z.string({ required_error: "Em branco." }),
+  contact: z.string({ required_error: "Em branco." }),
+});
+
 export const estimateForm = z.object({
   role: z.string(),
   desc: z.string({ required_error: "Em branco." }),
@@ -63,5 +71,5 @@ export const estimateForm = z.object({
   clientNumber: z.string({ required_error: "Em branco." }),
   items: z.string(),
   clientAddress: z.string({ required_error: "Em branco." }),
-  clientId: z.string()
+  clientId: z.string(),
 });

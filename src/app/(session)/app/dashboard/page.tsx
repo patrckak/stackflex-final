@@ -37,7 +37,6 @@ export default function Dashboard() {
             </span>
             .
           </h5>
-          <h3>xuxuu</h3>
         </ThemedSection>
       </Layout>
     );

@@ -35,7 +35,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="m-auto border-2 border-black bg-white dark:bg-zinc-800 rounded-lg p-10 w-[60vw] min-h-[60vh] max-h-[65vh] no-scrollbar  overflow-scroll">
+    <div className="m-auto bg-neutral-100 shadow-md dark:bg-zinc-800 rounded-lg p-10 w-[60vw] min-w-[500px] min-h-[60vh] max-h-[65vh] no-scrollbar  overflow-scroll">
       <Table>
         <TableHeader className="bg-stone-950 hover:bg-stone-800 dark:bg-black dark:hover:bg-black ">
           {table.getHeaderGroups().map((headerGroup) => (

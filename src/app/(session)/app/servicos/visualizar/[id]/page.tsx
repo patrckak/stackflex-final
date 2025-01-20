@@ -78,7 +78,8 @@ export default function VisualizarOrcamento() {
     if (res.status == 0) {
       toast({ description: res.msg, variant: "destructive" });
     } else if (res.status == 2) {
-      return setData({ key: "Orçamento não encontrado." });
+      //TODO MOSTRAR MENSAGEM DE ORÇAMENTO NÃO ENCONTRADO / REMOVIDO.
+      // return setData({ key: "Orçamento não encontrado." });
     } else {
       setData(res.data);
     }

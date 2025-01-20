@@ -1,22 +1,23 @@
 "use server";
 
 export const newClient = async (formData: any) => {
-  const { nome, endereco, contato, id, role } = formData;
-  if (id) {
+  const { name, address, contact, role, cadastro } = formData;
+  if (role) {
     let client = await prisma.user.update({
-      where: { id: id },
+      where: { id: role },
       data: {
         Client: {
           create: {
-            name: nome,
-            address: endereco,
-            contact: contato,
+            cadastro: cadastro,
+            name: name,
+            address: address,
+            contact: contact,
           },
         },
       },
     });
     if (client) return { msg: "Cliente criado com sucesso." };
-  } else return { msg: "ERRO SF511: Erro ao registrar o client." };
+  } else return { msg: "Erro ao registrar o client. SF-005", status: 0 };
 };
 
 export const listClients = async (id: string): Promise<Array<any>> => {
