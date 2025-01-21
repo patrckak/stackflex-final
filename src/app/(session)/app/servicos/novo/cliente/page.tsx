@@ -23,7 +23,7 @@ import { clientForm } from "../../../../../../../utils/schemas";
 import { newClient } from "@/app/actions/client";
 import { useToast } from "@/hooks/use-toast";
 
-const Cliente = () => {
+const Page = () => {
   const { data: session } = useSession();
 
   const form = useForm<z.infer<typeof clientForm>>({
@@ -134,4 +134,4 @@ const Cliente = () => {
   }
 };
 
-export default Cliente;
+export default Page;

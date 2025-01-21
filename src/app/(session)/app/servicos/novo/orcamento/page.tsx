@@ -12,11 +12,6 @@ export default function Page() {
   if (typeof window === "undefined") {
     return <div>Carregando...</div>; // Componente temporário no SSR
   }
-
-  if (status === "loading") {
-    return <div>Carregando sessão...</div>;
-  }
-
   if (session) {
     return (
       <Layout>
