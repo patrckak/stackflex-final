@@ -1,6 +1,6 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import ThemedSection from "@/components/ui/themedSection";
-import EstimateTable from "@/components/(table)/page";
+import EstimateTable from "@/app/(session)/app/servicos/table";
 import { auth } from "../../../../../auth";
 import Layout from "./layout";
 export default async function Page() {
