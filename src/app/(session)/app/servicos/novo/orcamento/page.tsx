@@ -7,11 +7,8 @@ import Layout from "./layout";
 import { useSession } from "next-auth/react";
 
 export default function Page() {
-  const { data: session, status } = useSession();
+  const { data: session, status } = useSession({ required: true });
 
-  if (typeof window === "undefined") {
-    return <div>Carregando...</div>; // Componente temporário no SSR
-  }
   if (session) {
     return (
       <Layout>
@@ -21,7 +18,7 @@ export default function Page() {
         </ThemedSection>
       </Layout>
     );
+  } else {
+    return <></>;
   }
-
-  return <div>Você precisa estar logado.</div>; // Quando não há sessão
 }
