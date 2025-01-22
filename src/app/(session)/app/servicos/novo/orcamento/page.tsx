@@ -6,8 +6,14 @@ import ThemedSection from "@/components/ui/themedSection";
 import Layout from "./layout";
 import { useSession } from "next-auth/react";
 
+import dynamic from "next/dynamic";
+
+const EstimateForm = dynamic(() => import("@/components/ui/estimate-form"), {
+  ssr: false,
+});
+
 export default function Page() {
-  const { data: session, status } = useSession({ required: true });
+  const { data: session } = useSession();
 
   if (session) {
     return (
@@ -18,7 +24,7 @@ export default function Page() {
         </ThemedSection>
       </Layout>
     );
-  } else {
-    return <></>;
   }
+
+  return null;
 }
