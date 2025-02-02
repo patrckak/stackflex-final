@@ -6,27 +6,40 @@ export default function HeaderPublic() {
   return (
     <header
       className="
-    flex gap-3 dark:bg-gray-700 bg-zinc-200
-    shadow-2xl w-full h-full p-3 justify-between
+    flex gap-3 dark:bg-gray-800 bg-zinc-300
+    shadow-sm w-full h-[60px] p-3 justify-evenly items-center
+    fixed top-0 z-50
     "
     >
-      <span className="flex items-center ml-5 gap-3">
-        <h6 className="left-5 font-black font-mono text-xl mr-10">StackFlex</h6>
-        <Button variant="link" onClick={() => n.push("#prices")}>
-          Preços
-        </Button>
-        <Button variant="link" onClick={() => n.push("#features")}>
-          Funcionalidades
-        </Button>
-      </span>
+      <span>
+        <span
+          className="
+        flex gap-3 items-center"
+        >
+          {/* <Button
+            className="text-md font-medium"
+            variant="link"
+            onClick={() => n.push("#modulos")}
+          >
+            Funcionalidades
+          </Button> */}
 
-      <span className="flex items-center gap-3">
-        <Button variant="ghost" onClick={() => n.replace("/registro/dados")}>
-          Abra sua conta
-        </Button>
-        <Button variant="secondary" onClick={() => n.replace("/app/dashboard")}>
-          Área do Cliente
-        </Button>
+          <Button variant="link" onClick={() => n.replace("/")}>
+            <img
+              className="w-[40px] h-[40px]"
+              src="https://i.imgur.com/vQxxDbM.png"
+              alt="logo"
+              title="Stack Flex"
+            />
+          </Button>
+          {/* <Button
+            className="text-md font-medium"
+            variant="link"
+            onClick={() => n.push("#valores")}
+          >
+            Valores
+          </Button> */}
+        </span>
       </span>
     </header>
   );
