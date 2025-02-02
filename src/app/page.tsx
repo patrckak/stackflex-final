@@ -4,7 +4,8 @@ import { ModeToggle } from "@/components/theme-provider";
 import { AnimatedText } from "@/components/ui/animated-text";
 import { Button } from "@/components/ui/button";
 import HeaderPublic from "@/components/ui/header-public";
-import { ArrowUp } from "lucide-react";
+import { ArrowDown, ArrowUp } from "lucide-react";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -25,19 +26,42 @@ export default function Home() {
           id="sobre"
           className="h-[100vh] flex justify-center dark:bg-gray-600 bg-zinc-200"
         >
-          <span className="relative top-[100px]">
-            <AnimatedText
-              text="Stack Flex"
-              className="text-center"
-              underlineGradient="from-pink-500 via-purple-500 to-indigo-500 bg-200% animate-gradient-move"
-              underlineClassName="h-[5px] "
-              underlineOffset="mt-[1px]"
-              replay={true}
-              as="h1"
-            />
-            <p className="pt-3 text-center">
-              Simplificando a Gestão, Multiplicando Resultados.
-            </p>
+          <Button
+            className="absolute right-10 top-10"
+            variant="ghost"
+            onClick={() => redirect("/app/dashboard")}
+          >
+            Entrar
+          </Button>
+          <span className="relative top-[100px] flex flex-col gap-5">
+            <span className="flex flex-col items-center pb-5 justify-center">
+              <AnimatedText
+                text="Stack Flex"
+                className="text-center"
+                underlineGradient="from-pink-500 via-purple-500 to-indigo-500 bg-200% animate-gradient-move"
+                underlineClassName="h-[5px] "
+                underlineOffset="mt-[1px]"
+                replay={true}
+                as="h1"
+              />
+              <p className="pt-3 text-center">
+                Simplificando a Gestão, Multiplicando Resultados.
+              </p>
+            </span>
+
+            <span className="flex flex-col items-center pt-10 justify-center border-red-100 border h-[200px] w-[200px]"></span>
+
+            <span className="flex flex-col items-center pt-10 justify-center">
+              <h3 className="text-2xl font-medium">Teste agora</h3>
+              <Button
+                onClick={() => {
+                  redirect("#modulos");
+                }}
+                className="bg-purple-500 hover:bg-purple-600 rounded-full w-[30px] h-[30px]"
+              >
+                <ArrowDown />
+              </Button>
+            </span>
           </span>
         </section>
         <section
