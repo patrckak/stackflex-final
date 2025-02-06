@@ -53,7 +53,7 @@
     "input-otp": "^1.4.1",
     "ldrs": "^1.0.2",
     "lucide-react": "^0.427.0",
-    "next": "^15.1.5",
+    "next": "^15.1.6",
     "next-auth": "^5.0.0-beta.25",
     "next-themes": "^0.3.0",
     "qrcode-terminal": "^0.12.0",

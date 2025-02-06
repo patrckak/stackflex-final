@@ -49,7 +49,7 @@ export function AppSidebar({ session }) {
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupLabel className="text-center font-bold w-[100%]">
-              StackFlex - v1.0
+              StackFlex - {}
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu className="gap-3">

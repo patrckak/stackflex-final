@@ -31,6 +31,19 @@ model User {
   Funcionarios Funcionarios[]
   Client       Client[]
   Estimates    Estimates[]
+  Estoque      Estoque[]
+}
+
+model Estoque {
+  id          String   @id @map("_id")
+  productName String
+  quantity    Int
+  price       Float
+  category    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  User User @relation(fields: [id], references: [id])
 }
 
 model Account {

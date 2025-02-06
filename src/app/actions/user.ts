@@ -7,5 +7,5 @@ export const getEarns = async (id: string) => {
     where: { id: id },
     select: { earnings: true, costs: true },
   });
-  return [{ costs: d.costs, earnings: d.earnings }];
+  return { costs: d.costs, earnings: d.earnings };
 };

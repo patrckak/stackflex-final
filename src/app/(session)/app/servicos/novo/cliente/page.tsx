@@ -32,9 +32,7 @@ const Page = () => {
 
   const { toast } = useToast();
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    form.setValue("role", session.user.role);
+  async function handleSubmit(values: z.infer<typeof clientForm>) {
     let res = await newClient(form.getValues());
     if (res.status == 0) {
       toast({ description: res.msg, variant: "destructive" });
@@ -49,8 +47,12 @@ const Page = () => {
         <AppSidebar session={session} />
         <ThemedSection>
           <div className="flex flex-col  min-w-[500px] bg-neutral-100 shadow-md dark:bg-zinc-800 rounded-lg p-10 w-[20vw] min-h-[80vh] max-h-[95vh] no-scrollbar  overflow-scroll">
+            <h3 className="text-2xl text-center font-black">Novo cliente</h3>
             <Form {...form}>
-              <form onSubmit={(e) => handleSubmit(e)} className="space-y-8">
+              <form
+                onSubmit={form.handleSubmit(handleSubmit)}
+                className="space-y-8"
+              >
                 <>
                   <FormField
                     control={form.control}
@@ -58,7 +60,12 @@ const Page = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Input disabled {...field} />
+                          <Input
+                            type="hidden"
+                            defaultValue={session.user.role}
+                            disabled
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -71,7 +78,7 @@ const Page = () => {
                       <FormItem>
                         <FormLabel>Nome completo</FormLabel>
                         <FormControl>
-                          <Input placeholder="Maria Oliveira" {...field} />
+                          <Input placeholder="Maria de Oliveira" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -85,7 +92,7 @@ const Page = () => {
                       <FormItem>
                         <FormLabel>CPF / CPNJ</FormLabel>
                         <FormControl>
-                          <Input placeholder="00000000000" {...field} />
+                          <Input placeholder="Apenas números" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -113,15 +120,19 @@ const Page = () => {
                       <FormItem>
                         <FormLabel>Contato</FormLabel>
                         <FormControl>
-                          <Input placeholder="981234561" {...field} />
+                          <Input
+                            maxLength={11}
+                            placeholder="22981234561"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </>
-                <span className="">
-                  <Button type="submit" variant="outline" className="">
+                <span className="flex justify-center">
+                  <Button type="submit" variant="default" className="">
                     <Plus /> Registrar
                   </Button>
                 </span>

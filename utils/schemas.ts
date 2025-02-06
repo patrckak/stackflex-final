@@ -56,7 +56,7 @@ export const formSchema = z
   });
 
 export const clientForm = z.object({
-  role: z.string(),
+  role: z.string().readonly(),
   name: z.string({ required_error: "Em branco." }),
   cadastro: z.string({ required_error: "Em branco." }),
   address: z.string({ required_error: "Em branco." }),
