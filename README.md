@@ -8,14 +8,14 @@
 
 * [x] Autenticação via credenciais
 * [ ] Adicionar autenticação com google oAuth
-* [x] Re-design de toda landpage.
+* [x] Re-design de toda landpage
 * [ ] Sistema de estoque
   * [ ] Adição de items do estoque no orçamento
   * [ ] Remover items automaticamente se OS finalizada
 * [x] Sistema de criação Orçamentos
   * [ ] Aprovação de orçamentos via links
 * [ ] Gerencia de funcionarios
-  * [ ] Registrar / Demitir funcionario (funcionarios devem permancer no banco da empresa mesmo após demissão por questões juridicas.)
+  * [ ] Registrar / Demitir funcionario
   * [ ] Delegar agenda/serviços para funcionário
   * [ ] Gerenciar ferramentas / veiculos que estão em uso por funcionário
   * [ ] Status do funcionario (em folga | ocioso | em serviço)

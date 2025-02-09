@@ -5,9 +5,10 @@ import { useSession } from "next-auth/react";
 import ThemedSection from "@/components/ui/themedSection";
 import Layout from "./layout";
 import Link from "next/link";
-import { CardTitle } from "@/components/ui/card";
-import DashboardCards from "@/components/ui/dashboard-cards";
 import { Button } from "@/components/ui/button";
+import dynamic from "next/dynamic";
+import { DollarSign, List, Pen, Plus, Wrench } from "lucide-react";
+import { ModeToggle } from "@/components/theme-provider";
 
 export default function Dashboard() {
   function saudarUsuario() {
@@ -25,6 +26,13 @@ export default function Dashboard() {
     return s;
   }
 
+  const DashboardCards = dynamic(
+    () => import("@/components/ui/dashboard-cards"),
+    {
+      ssr: false,
+    }
+  );
+
   const { data: session } = useSession({
     required: true,
   });
@@ -35,26 +43,51 @@ export default function Dashboard() {
         <AppSidebar session={session} />
         <ThemedSection>
           <span className="p-5  flex flex-row items-center justify-between absolute top-10 w-[75%]">
-            <h5 className="text-lg ">
+            <h5 className="text-lg">
               {saudarUsuario()},&nbsp;
               <span className="font-bold bg-gradient-to-r from-violet-600 to-indigo-600 dark:from-violet-400 dark:to-indigo-400 bg-clip-text text-transparent ">
                 <Link href="/app/conta">{session.user.name}</Link>
               </span>
               .
             </h5>
-            <Button variant="ghost">
-              <Link href="/app/conta">Ver perfil</Link>
-            </Button>
+            <span>
+              <ModeToggle />
+            </span>
           </span>
 
           <span className="absolute top-20 w-[75%] h-[30%]">
             <DashboardCards />
           </span>
 
-          <span className="absolute flex justify-between flex-row gap-5 top-64 w-[75%] border-2 border-black p-5 rounded-md">
-            <Button>Novo cliente</Button>
-            <Button variant="destructive">Devedores: 2</Button>
-            <Button variant="secondary">Listar clientes</Button>
+          <span className="absolute flex justify-start flex-row gap-5 top-64 w-[75%] p-5 rounded-md">
+            <span className="flex flex-row gap-4">
+              <span className="flex flex-col gap-4">
+                <h3 className="text-center">Clientes</h3>
+                <Button className="bg-green-500 hover:bg-green-400">
+                  <Plus /> Novo cliente
+                </Button>
+                <Button className="bg-red-500 hover:bg-red-400">
+                  <DollarSign /> Devedores (2)
+                </Button>
+                <Button variant="secondary">
+                  <List /> Listar clientes
+                </Button>
+              </span>
+              <span className="flex flex-col gap-4 text-start">
+                <h3 className="text-center">Funcionários</h3>
+
+                <Button className="bg-green-500 hover:bg-green-400">
+                  <Pen /> Editar funcionários
+                </Button>
+                <Button className="bg-sky-500 hover:bg-sky-400">
+                  <Wrench /> Em serviço (0)
+                </Button>
+                <Button variant="secondary">
+                  <List />
+                  Listar clientes
+                </Button>
+              </span>
+            </span>
           </span>
         </ThemedSection>
       </Layout>

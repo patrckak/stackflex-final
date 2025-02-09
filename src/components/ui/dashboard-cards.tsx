@@ -6,6 +6,8 @@ import { auth } from "../../../auth";
 import { getEarns } from "@/app/actions/user";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
+import dynamic from "next/dynamic";
+import { Spinner } from "./spinner";
 
 interface GanhosType {
   earnings?: number;
@@ -22,11 +24,10 @@ export default function DashboardCards() {
       setGanhos(res);
     });
   }
-
   if (session) {
     return (
       <span className="flex flex-row gap-5 p-10 justify-around">
-        <Card className="p-5 bg-green-500 min-w-[200px] shadow-md">
+        <Card className="p-5 bg-green-500 border-none min-w-[200px] shadow-md hover:shadow-2xl transition-shadow">
           <CardTitle className="text-lg text-white flex items-center">
             <ChevronUp size={30} /> Entradas
           </CardTitle>
@@ -37,7 +38,7 @@ export default function DashboardCards() {
             })}
           </CardDescription>
         </Card>
-        <Card className="p-5 bg-red-500 min-w-[200px] shadow-md">
+        <Card className="p-5 bg-red-500 border-none min-w-[200px] shadow-md hover:shadow-2xl transition-shadow">
           <CardTitle className="text-lg text-white flex items-center">
             <ChevronDown size={30} /> Saidas
           </CardTitle>
@@ -48,7 +49,7 @@ export default function DashboardCards() {
             })}
           </CardDescription>
         </Card>
-        <Card className="p-5 bg-purple-500 min-w-[200px] shadow-md">
+        <Card className="p-5 bg-purple-500 border-none min-w-[200px] shadow-md hover:shadow-2xl transition-shadow">
           <CardTitle className="text-lg text-white flex items-center">
             <ChevronDown size={30} /> Lucro
           </CardTitle>
@@ -61,5 +62,7 @@ export default function DashboardCards() {
         </Card>
       </span>
     );
+  } else {
+    <Spinner variant="circle" />;
   }
 }
