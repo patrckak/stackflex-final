@@ -2,11 +2,9 @@
 
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Card, CardDescription, CardTitle } from "./card";
-import { auth } from "../../../auth";
 import { getEarns } from "@/app/actions/user";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
-import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 import { Spinner } from "./spinner";
 
 interface GanhosType {
@@ -19,11 +17,13 @@ export default function DashboardCards() {
 
   const { data: session } = useSession();
 
-  if (session) {
-    getEarns(session.user.role).then((res) => {
-      setGanhos(res);
-    });
-  }
+  useEffect(() => {
+    if (session) {
+      getEarns(session.user.role).then((res) => {
+        setGanhos(res);
+      });
+    }
+  }, [session]);
   if (session) {
     return (
       <span className="flex flex-row gap-5 p-10 justify-around">

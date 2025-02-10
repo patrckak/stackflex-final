@@ -7,8 +7,12 @@ import Layout from "./layout";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import dynamic from "next/dynamic";
+import { ptBR } from "date-fns/locale/pt-BR";
 import { DollarSign, List, Pen, Plus, Wrench } from "lucide-react";
 import { ModeToggle } from "@/components/theme-provider";
+import DashboardButtons from "@/components/ui/dashboard-buttons";
+import { Calendar } from "@/components/ui/calendar";
+import DashboardTasks from "@/components/ui/dashboard-tasks";
 
 export default function Dashboard() {
   function saudarUsuario() {
@@ -60,34 +64,8 @@ export default function Dashboard() {
           </span>
 
           <span className="absolute flex justify-start flex-row gap-5 top-64 w-[75%] p-5 rounded-md">
-            <span className="flex flex-row gap-4">
-              <span className="flex flex-col gap-4">
-                <h3 className="text-center">Clientes</h3>
-                <Button className="bg-green-500 hover:bg-green-400">
-                  <Plus /> Novo cliente
-                </Button>
-                <Button className="bg-red-500 hover:bg-red-400">
-                  <DollarSign /> Devedores (2)
-                </Button>
-                <Button variant="secondary">
-                  <List /> Listar clientes
-                </Button>
-              </span>
-              <span className="flex flex-col gap-4 text-start">
-                <h3 className="text-center">Funcionários</h3>
-
-                <Button className="bg-green-500 hover:bg-green-400">
-                  <Pen /> Editar funcionários
-                </Button>
-                <Button className="bg-sky-500 hover:bg-sky-400">
-                  <Wrench /> Em serviço (0)
-                </Button>
-                <Button variant="secondary">
-                  <List />
-                  Listar clientes
-                </Button>
-              </span>
-            </span>
+            <DashboardButtons />
+            <DashboardTasks />
           </span>
         </ThemedSection>
       </Layout>
