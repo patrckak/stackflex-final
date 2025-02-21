@@ -1,18 +1,15 @@
 "use client";
 
 import { AppSidebar } from "@/components/app-sidebar";
-import { useSession } from "next-auth/react";
-import ThemedSection from "@/components/ui/themedSection";
-import Layout from "./layout";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import dynamic from "next/dynamic";
-import { ptBR } from "date-fns/locale/pt-BR";
-import { DollarSign, List, Pen, Plus, Wrench } from "lucide-react";
 import { ModeToggle } from "@/components/theme-provider";
 import DashboardButtons from "@/components/ui/dashboard-buttons";
-import { Calendar } from "@/components/ui/calendar";
 import DashboardTasks from "@/components/ui/dashboard-tasks";
+import ThemedSection from "@/components/ui/themedSection";
+import { useSession } from "next-auth/react";
+import dynamic from "next/dynamic";
+import Link from "next/link";
+import Layout from "./layout";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function Dashboard() {
   function saudarUsuario() {
@@ -64,6 +61,7 @@ export default function Dashboard() {
           </span>
 
           <span className="absolute flex justify-start flex-row gap-5 top-64 w-[75%] p-5 rounded-md">
+            <hr />
             <DashboardButtons />
             <DashboardTasks />
           </span>

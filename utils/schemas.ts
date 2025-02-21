@@ -73,3 +73,30 @@ export const estimateForm = z.object({
   clientAddress: z.string({ required_error: "Em branco." }),
   clientId: z.string(),
 });
+
+//! Phone number validation
+
+// Regex to validate the phone number in the format (XX) XXXXX or (XX) XXXXX-YYYY
+const phoneRegex = /^\(\d{2}\) \d{5}(?:-\d{4})?$/;
+
+// Interface for the form that includes the phone field
+export interface PhoneFormSchema {
+  contact_phone: string;
+}
+
+// Schema for phone number validation
+const phoneSchema = z
+  .string()
+  .min(15, "This field is required")
+  .length(15, `Must have 15 characters`)
+  .regex(phoneRegex, "The phone number must be valid");
+
+// Example of how to use the phone schema in an object
+export const zodPhoneSchema = z.object({
+  contact_phone: phoneSchema,
+});
+
+// Function to validate the phone number format
+export const invalidPhoneNumberFormat = (number: string) => {
+  return phoneRegex.test(number);
+};

@@ -71,6 +71,7 @@ export async function getUserAuth(cpf: any, password: any) {
         role: userExits.id,
         storeId: userExits.cnpj,
         cpf: userExits.public_id,
+        email: userExits.email,
       };
     } else {
       return null;

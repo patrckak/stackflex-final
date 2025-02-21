@@ -21,7 +21,7 @@
   * [ ] Status do funcionario (em folga | ocioso | em serviço)
 * [ ] Gerenciar clientes
   * [ ] Clientes devedores
-  * [ ] Criar/Apagar/Editar cliente
+  * [X] Criar/Apagar/Editar cliente
   * [ ] Lista de clientes
 
 ---

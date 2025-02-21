@@ -98,6 +98,27 @@ export const getEstimateData = async (role: string, id: any) => {
   } catch (error) {}
 };
 
+export const getEstimateDataByPassword = async (key: any, id: any) => {
+  try {
+    let es = await prisma.estimates.findFirst({ where: { estimateId: id } });
+    if (es) {
+      if (es.key == key) {
+        return { data: es, msg: "ok" }; //? retornar dados do orçamento
+      } else {
+        return {
+          msg: "Senha incorreta. SF-002",
+          status: 2,
+        }; //? senha incorreta
+      }
+    } else {
+      return {
+        msg: "Erro ao recuperar dados do orçamento. SF-008",
+        status: 2,
+      };
+    }
+  } catch (error) {}
+};
+
 export const deleteEstimate = async (
   role: string,
   id: any,

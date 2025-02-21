@@ -6,7 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-export default async function SignInPage() {
+export default async function SignInPage({ searchParams }) {
+  const error = await searchParams.error;
   return (
     <section className="flex flex-col gap-2 h-screen w-screen justify-center items-center dark:bg-gray-700 bg-zinc-200">
       <form
@@ -23,6 +24,22 @@ export default async function SignInPage() {
         }}
       >
         <div className="flex flex-col gap-5 items-center  h-fit p-16 ">
+          {error && error === "SessionRequired" ? (
+            <h1 className="text-red-500 text-center dark:text-red-400">
+              Sessão inválida. <br /> Faça login novamente.
+            </h1>
+          ) : (
+            <></>
+          )}
+          {error && error === "CredentialsSignin" ? (
+            <h1 className="text-red-500 dark:text-red-400">
+              Usuário ou senha inválidos.
+            </h1>
+          ) : (
+            <></>
+          )}
+
+          <h3 className="text-2xl font-medium">Área do cliente</h3>
           <input
             name="redirectTo"
             type="hidden"
@@ -32,7 +49,7 @@ export default async function SignInPage() {
             <Label htmlFor="user">Usuário</Label>
             <Input
               className="shadow-md hover:shadow-none"
-              placeholder="123 456 789 10"
+              placeholder="CPF ou CNPJ"
               name="user"
               id="user"
             />
@@ -51,19 +68,12 @@ export default async function SignInPage() {
             Novo aqui?
             <Link
               href={"/new/account"}
-              className="  text-blue-900 hover:text-blue-600 dark:text-sky-700"
+              className="  text-blue-900 hover:text-blue-600 dark:text-sky-400 dark:hover:text-blue-600"
             >
               &nbsp;Cadastre-se
             </Link>
           </p>
           <span className="flex gap-5">
-            {/* <Button
-              type="button"
-              title="Voltar a página inicial"
-              variant="secondary"
-            >
-              Início
-            </Button> */}
             <Button type="submit" title="Autenticar" variant="default">
               Autenticar
             </Button>
