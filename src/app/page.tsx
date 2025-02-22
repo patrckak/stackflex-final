@@ -5,6 +5,7 @@ import { AnimatedText } from "@/components/ui/animated-text";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import HeaderPublic from "@/components/ui/header-public";
+import { GooeyText } from "@/components/ui/text-morph";
 import { ArrowDown, ArrowUp, ChevronDown, ChevronUp } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -35,10 +36,16 @@ export default function Home() {
             variant="ghost"
             onClick={() => n.replace("/app/dashboard")}
           >
-            Entrar
+            Dashboard
           </Button>
 
           <span className="text-center absolute mx-auto my-10 flex flex-col items-center justify-center gap-3">
+            {/* <GooeyText
+              texts={["Stack Flex", "Costumizavél", "Fléxivel", "Simplificado"]}
+              morphTime={1}
+              cooldownTime={0.5}
+              className="font-bold"
+            /> */}
             <AnimatedText
               text="Stack Flex"
               underlineGradient="from-purple-700 to-purple-500  bg-200% animate-gradient-move"

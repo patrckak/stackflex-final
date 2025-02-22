@@ -116,7 +116,9 @@ export const getEstimateDataByPassword = async (key: any, id: any) => {
         status: 2,
       };
     }
-  } catch (error) {}
+  } catch (error) {
+    return { msg: "Erro interno ao recuperar dados do orçamento. SF-009" };
+  }
 };
 
 export const deleteEstimate = async (
