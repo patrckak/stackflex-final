@@ -130,7 +130,7 @@ export default function VisualizarOrcamento() {
             <Button
               onClick={() => {
                 navigator.clipboard.writeText(
-                  `http://localhost:3000/v/${id}/${data.key}`
+                  `${window.location.host}/v/${id}/${data.key}`
                 );
                 toast({
                   description: "Link copiado.",

@@ -18,16 +18,16 @@ export default function PreviewEstimate({ data }) {
   return (
     <span className="flex flex-col gap-3 items-center shadow-md  bg-neutral-100 dark:bg-zinc-800 rounded-lg p-10 min-w-[50vw] min-h-[60vh] max-h-[65vh] ">
       <h1 className="text-xl flex gap-1 items-center">
-        Cliente:
-        <p className="font-black text-2xl font-mono">{data.cadastro}</p>
+        <p className="font-black text-2xl font-mono">{data.clientCadastro}</p>
       </h1>
       <span className="flex flex-row gap-3">
         <span className="justify-self-start flex gap-2 flex-col items-center">
           <Label htmlFor="data">Data de Execução</Label>
           <Input
             name="data"
-            disabled
-            className="w-36 text-black dark:text-white disabled:text-black "
+            onClick={(e) => e.preventDefault()} //? bloqueia abertura do calendário
+            onKeyDown={(e) => e.preventDefault()} //? bloqueia edição por teclado
+            className="w-36 text-black text-center dark:text-white disabled:text-black disabled"
             type="date"
             defaultValue={data.date}
           />
