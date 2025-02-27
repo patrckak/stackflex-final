@@ -10,6 +10,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import Layout from "./layout";
 import { Spinner } from "@/components/ui/spinner";
+import ConfirmEmailAlert from "@/components/ui/confirm-email";
 
 export default function Dashboard() {
   function saudarUsuario() {
@@ -43,6 +44,7 @@ export default function Dashboard() {
       <Layout>
         <AppSidebar session={session} />
         <ThemedSection>
+          <span className="p-5  flex flex-row items-center justify-between absolute top-10 w-[75%]"></span>
           <span className="p-5  flex flex-row items-center justify-between absolute top-10 w-[75%]">
             <h5 className="text-lg">
               {saudarUsuario()},&nbsp;
@@ -51,15 +53,14 @@ export default function Dashboard() {
               </span>
               .
             </h5>
+            {/* <ConfirmEmailAlert session={session} /> */}
             <span>
               <ModeToggle />
             </span>
           </span>
-
-          <span className="absolute top-20 w-[75%] h-[30%]">
+          <span className="absolute top-24 w-[75%] h-[30%]">
             <DashboardCards />
           </span>
-
           <span className="absolute flex justify-start flex-row gap-5 top-64 w-[75%] p-5 rounded-md">
             <hr />
             <DashboardButtons />

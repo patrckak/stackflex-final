@@ -40,7 +40,7 @@
 
 * 002 > Credencial inválida / incorreta.
 * 003 > Usuário não encontrado.
-* 004
+* 004 > Erro Interno ao autenticar usuário.
 * 005 > ID não encontrado.
 * 006 > Erro interno ao editar orçamento.
 * 102 > Erro interno ao gerar orçamento.

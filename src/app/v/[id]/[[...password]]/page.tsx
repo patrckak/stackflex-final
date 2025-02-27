@@ -13,6 +13,14 @@ import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Check, X } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@radix-ui/react-dialog";
+import { DialogFooter, DialogHeader } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function Page() {
   const params = useParams<{ id: string; password: string }>();
@@ -20,6 +28,16 @@ export default function Page() {
   const [password, setPassword] = useState<string>("");
   const [passwordStatus, setPasswordStatus] = useState<boolean>(false);
   const [estimateData, setEstimateData] = useState<any>();
+  const [viewConfirmDialog, setViewConfirmDialog] = useState<boolean>(false);
+  const [viewCancelDialog, setViewCancelDialog] = useState<boolean>(false);
+
+  const handleCofirmDialog = () => {
+    setViewConfirmDialog(!viewConfirmDialog);
+  };
+
+  const handleCancelDialog = () => {
+    setViewCancelDialog(!viewCancelDialog);
+  };
 
   const { toast } = useToast();
 
@@ -28,10 +46,13 @@ export default function Page() {
       <>
         <PreviewEstimate data={estimateData} />
         <span className="flex gap-3 pt-4">
-          <Button>
+          <Button
+            onClick={handleCofirmDialog}
+            className="bg-green-500 hover:bg-green-600"
+          >
             <Check /> Aprovar Orçamento
           </Button>
-          <Button variant="destructive">
+          <Button onClick={handleCancelDialog} variant="destructive">
             <X /> Pedir revisão
           </Button>
         </span>
@@ -75,6 +96,23 @@ export default function Page() {
         <div className="flex flex-col items-center justify-center h-screen">
           <EstimatePreview />
         </div>
+        <Dialog open={viewConfirmDialog}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Você tem certeza?</DialogTitle>
+              <DialogDescription>
+                Descreva o que você precisa de revisão.
+              </DialogDescription>
+              <Textarea />
+            </DialogHeader>
+            <DialogFooter>
+              <Button type="button" variant="secondary">
+                Finalizar
+              </Button>
+              <Button type="button">Fechar</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </ThemedSection>
     );
   }
