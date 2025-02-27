@@ -53,7 +53,7 @@ export default function Dashboard() {
               </span>
               .
             </h5>
-            {/* <ConfirmEmailAlert session={session} /> */}
+            <ConfirmEmailAlert session={session} />
             <span>
               <ModeToggle />
             </span>
