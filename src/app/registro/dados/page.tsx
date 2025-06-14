@@ -21,6 +21,7 @@ import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { formSchema } from "../../../../utils/schemas";
 import Layout from "./layout";
+import { useState } from "react";
 
 export default function AccountRegister() {
   const { data: session, status } = useSession();
@@ -29,17 +30,23 @@ export default function AccountRegister() {
 
   const { toast } = useToast();
 
-  const mask = useHookFormMask(register);
+  const [submitText, setSubmitText] = useState("Criar conta");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
   const submit = async (data) => {
+    setSubmitText("Criando conta...");
     let res = await createUser(data);
     if (res.status == 1) {
-      return redirect("/new/prices");
+      setSubmitText("Conta criada com sucesso!");
+      toast({ description: "Você será redirecionado para o login." });
+      setTimeout(() => {
+        return redirect("/auth/login/");
+      }, 2000);
     } else {
+      setSubmitText("Ocorreu um erro...");
       return toast({ description: res.msg, variant: "destructive" });
     }
   };
@@ -59,7 +66,17 @@ export default function AccountRegister() {
         <ThemedSection>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(submit)} className="space-y-8">
-              <div className="w-fit h-fit p-5 flex flex-row gap-6">
+              <div className="flex flex-col gap-4 justify-center items-center ">
+                <img
+                  src="https://i.imgur.com/vQxxDbM.png"
+                  alt="Logo"
+                  className="w-24 h-24"
+                />
+                <h1 className="font-semibold text-2xl text-purple-600">
+                  StackFlex - ERP
+                </h1>
+              </div>
+              <div className="w-fit h-fit p-5 flex flex-row gap-6 flex-wrap justify-center items-center">
                 <span className="w-[320px] flex flex-col gap-4">
                   <FormField
                     control={form.control}
@@ -265,7 +282,9 @@ export default function AccountRegister() {
                     )}
                   />
                   <span className="h-[95px] justify-center items-center flex flex-row gap-4">
-                    <Button type="submit">Próxima Etapa</Button>
+                    <Button onClick={submit} type="button">
+                      {submitText}
+                    </Button>
                   </span>
                 </span>
               </div>

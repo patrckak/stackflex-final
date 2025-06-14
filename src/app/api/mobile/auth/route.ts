@@ -1,5 +1,7 @@
 import { prisma } from "./../../../../lib/prisma";
-export async function POST(request: Request) {
+export async function POST(request) {
+  request.setHeader("Access-Control-Allow-Origin", "*");
+
   const { email, cpf } = await request.json();
   try {
     if (!email || !cpf)

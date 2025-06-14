@@ -41,6 +41,7 @@ export default function Dashboard() {
 
   if (session) {
     return (
+      // todo: verificar se o firstLogin é true, se sim, redirecionar para a página de configuração do perfil e selecionar o plano
       <Layout>
         <AppSidebar session={session} />
         <ThemedSection>

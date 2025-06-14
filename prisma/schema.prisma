@@ -14,6 +14,7 @@ datasource db {
 model User {
   public_id    String   @id @map("_id") // CPF
   id           String   @unique @default(cuid())
+  firstLogin   Boolean  @default(true) // quando o usuário faz o primeiro login
   firstname    String
   lastname     String
   email        String
@@ -55,7 +56,7 @@ model Account {
   useWhatsapp   Boolean @default(false) // Integração com Whatsapp
   useChild      Boolean @default(false) // Criação de contas "filhas"
   isVerificated Boolean @default(false) // se o email é verificado ou não
-  costs         Float   @default(0)
+  costs         Float   @default(0) // 
   earnings      Float   @default(0)
   notifications String? // notificações
   plan          Int     @default(0) // 0 free 1 basic 2 custom

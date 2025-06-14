@@ -18,7 +18,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br" suppressHydrationWarning suppressContentEditableWarning>
+    <html
+      lang="pt-br"
+      suppressHydrationWarning={true}
+      suppressContentEditableWarning={true}
+    >
       <body className={inter.className}>
         <Suspense fallback={<Loading />}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
