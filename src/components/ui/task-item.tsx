@@ -1,4 +1,4 @@
-import { Eye, Check, Bell } from "lucide-react";
+import { Eye, Check, Bell, BellRing, BellIcon } from "lucide-react";
 import { Button } from "./button";
 
 interface TaskProps {
@@ -19,7 +19,9 @@ export default function TaskItem({
     return (
       <span className="flex flex-row gap-2">
         <span className="min-w-[300px] w-[100%] h-[40px] hover:shadow-md transition-shadow dark:bg-zinc-800 bg-zinc-300 p-2 rounded-md flex flex-row gap-4 justify-between items-center">
-          <h3>{title}</h3>
+          <h3>
+            <BellIcon size={18} />
+          </h3>
           <p>{description}</p>
           <span className="flex flex-row gap-2 items-center">
             <p className="font-mono text-sm text-end">{date}</p>
@@ -33,7 +35,9 @@ export default function TaskItem({
   }
   return (
     <span className="min-w-[300px] h-[40px] hover:shadow-md transition-shadow dark:bg-neutral-800 bg-zinc-300 p-2 rounded-md flex flex-row gap-4 justify-between items-center">
-      <h3>{title}</h3>
+      <h3>
+        <BellIcon size={18} />
+      </h3>
       <p className="text-start">{description}</p>
       <p className="font-mono text-sm text-end">{date}</p>
     </span>
