@@ -18,12 +18,12 @@ export default function TaskItem({
   if (action) {
     return (
       <span className="flex flex-row gap-2">
-        <span className="min-w-[300px] w-[100%] h-[40px] hover:shadow-md transition-shadow dark:bg-zinc-800 bg-zinc-300 p-2 rounded-md flex flex-row gap-4 justify-between items-center">
+        <span className="min-w-[300px] w-[100%] h-[40px] hover:shadow-md transition-shadow dark:bg-zinc-800 bg-zinc-300 p-2 rounded-md flex flex-row gap-4 justify-start items-center">
           <h3>
             <BellIcon size={18} />
           </h3>
           <p>{description}</p>
-          <span className="flex flex-row gap-2 items-center">
+          <span className="flex flex-row gap-2 items-center text-start">
             <p className="font-mono text-sm text-end">{date}</p>
           </span>
         </span>
@@ -34,7 +34,7 @@ export default function TaskItem({
     );
   }
   return (
-    <span className="min-w-[300px] h-[40px] hover:shadow-md transition-shadow dark:bg-neutral-800 bg-zinc-300 p-2 rounded-md flex flex-row gap-4 justify-between items-center">
+    <span className="min-w-[300px] h-[40px] hover:shadow-md transition-shadow dark:bg-neutral-800 bg-zinc-300 p-2 rounded-md flex flex-row gap-4 justify-start items-center">
       <h3>
         <BellIcon size={18} />
       </h3>

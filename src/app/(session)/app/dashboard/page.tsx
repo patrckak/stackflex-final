@@ -10,7 +10,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import Layout from "./layout";
 import { Spinner } from "@/components/ui/spinner";
-import ConfirmEmailAlert from "@/components/ui/confirm-email";
+// import ConfirmEmailAlert from "@/components/ui/confirm-email";
 
 export default function Dashboard() {
   function saudarUsuario() {
@@ -54,7 +54,8 @@ export default function Dashboard() {
               </span>
               .
             </h5>
-            <ConfirmEmailAlert session={session} />
+            {/* // TODO: FINALIZAR COMPONENTE DE CONFIRMAÇÃO DE EMAIL */}
+            {/* <ConfirmEmailAlert session={session} /> */}
             <span>
               <ModeToggle />
             </span>
@@ -62,7 +63,7 @@ export default function Dashboard() {
           <span className="absolute top-24 w-[75%] h-[30%]">
             <DashboardCards />
           </span>
-          <span className="absolute flex justify-start flex-row gap-5 top-64 w-[75%] p-5 rounded-md">
+          <span className="absolute flex justify-start flex-row gap-5 top-64 w-[65%] p-5 rounded-md">
             <hr />
             <DashboardButtons />
             <DashboardTasks />

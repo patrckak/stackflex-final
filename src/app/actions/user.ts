@@ -25,3 +25,11 @@ export const getTasks = async (id: string) => {
   });
   return d;
 };
+
+export const getAccountId = async (cpf: string) => {
+  let d = await prisma.user.findFirst({
+    where: { public_id: cpf },
+    select: { Account: { select: { id: true } } },
+  });
+  return d?.Account[0].id;
+};
