@@ -23,7 +23,6 @@ export default function DashboardTasks() {
       },
     }).then((d) => {
       setRes(d.json())
-      toast
     })
   };
 
