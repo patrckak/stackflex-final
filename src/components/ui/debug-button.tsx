@@ -2,6 +2,9 @@ import { Button } from "./button";
 
 export default function DebugButton() {
   let testNumber = 0;
+  let data = JSON.stringify({
+    description: `Teste de notificação ${testNumber++}`,
+  });
 
   const handleAction = () => {
     fetch("/api/util/create/notifications", {
@@ -9,12 +12,7 @@ export default function DebugButton() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: {
-        id: "1234567",
-        data: {JSON.stringify({
-          description: `Teste de notificação ${testNumber++}`,
-        })},
-      }
+      body
     })
       .then((response) => response.json())
       .then((data) => {
@@ -29,7 +27,6 @@ export default function DebugButton() {
     <>
       <h4>DEBUG BUTTON</h4>
       <Button variant="destructive" onClick={handleAction}>
-        {" "}
         Ação{" "}
       </Button>
     </>
